@@ -8,6 +8,17 @@ h1 {
   height: 1000px;
 }
 
-.btn {
+.button-container {
   width: 100%;
+  position: absolute;
+  top: 300px;
+  text-align:center;
+}
+.btn {
+  width: 50%;
+  margin: 1rem;
+}
+
+.App {
+  background-color: red;
 }
