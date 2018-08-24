@@ -5,7 +5,7 @@ const Title = () => (
 
 <nav class="navbar navbar-light bg-light">
     <a href="/">
-        <h1 class="brand">Gourmand</h1>
+        <h1 class="brand">Gourmand Test1</h1>
     </a>
     <a href="/dishes">
         <button>Dishes</button>
