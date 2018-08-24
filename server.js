@@ -15,6 +15,11 @@ if (process.env.NODE_ENV === "production") {
 // Add routes, both API and view
 app.use(routes);
 
+app.get("/test", function(req, res) {
+  // res.send("Welcome to the Star Wars Page!")
+  res.send("test");
+});
+
 // Connect to the Mongo DB
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/gourmandDB");
 
