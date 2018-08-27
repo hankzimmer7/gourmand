@@ -5,10 +5,10 @@ const Landing = () => (
 <div className="landing-container">
     <div className="button-container">
     <a href="/sign_in">
-        <button type="button" className="btn btn-primary">Sign In</button>
+        <button type="button" className="btn wide-btn btn-primary">Sign In</button>
     </a>
     <a href="/create_account">
-        <button type="button" className="btn btn-primary">Create an Account</button>
+        <button type="button" className="btn wide-btn btn-primary">Create an Account</button>
     </a>
     </div>
 </div>
