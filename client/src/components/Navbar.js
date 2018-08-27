@@ -1,18 +1,34 @@
 import React from 'react';
+import './Navbar.css';
 
-const Navbar = () => (
-    <nav class="navbar navbar-light bg-light">
-    
-        <a href="/dishes">
-            <button>Dishes</button>
-        </a>
-        <a href="/restaurants">
-            <button>Restaurants</button>
-        </a>
-        <a href="/profile">
-            <button>Profile</button>
-        </a>
-    </nav>
-);
+const Title = () => (
 
-export default Navbar;
+<nav className="navbar navbar-expand-sm navbar-light bg-light">
+    <a class="navbar-brand " href="/">
+        <h1 className="brand">Gourmand</h1>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/dishes">Dishes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/restaurants">Restaurants</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/Profile">Profile</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+)
+
+export default Title;

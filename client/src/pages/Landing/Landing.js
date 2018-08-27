@@ -1,10 +1,8 @@
 import React from 'react';
-import Title from '../../components/GourmandHeading';
 
 const Landing = () => (
 
-<div class="landing-container">
-    <Title />
+<div className="landing-container">
     <div className="button-container">
     <a href="/sign_in">
         <button type="button" className="btn btn-primary">Sign In</button>
