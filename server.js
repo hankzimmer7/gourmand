@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const routes = require("./routes");
 const app = express();
+const morgan = require('morgan');
 const PORT = process.env.PORT || 3001;
 
 // Define middleware here
@@ -12,6 +13,9 @@ app.use(bodyParser.json());
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
+
+app.use(morgan('combined'));
+
 // Add routes, both API and view
 app.use(routes);
 

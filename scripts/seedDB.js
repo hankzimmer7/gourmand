@@ -44,8 +44,23 @@ const dishSeed = [{
   }
 ];
 
+const userSeed = [{
+    username: "Hank",
+    password: "sushi"
+  },
+  {
+    name: "Cloud",
+    password: "buster"
+  },
+  {
+    name: "Tifa",
+    password: "gloves"
+  }
+];
+
 let dishSeedingDone = false;
 let restaurantSeedingDone = false;
+let userSeedingDone = false;
 
 db.Restaurant
   .remove({})
@@ -73,8 +88,21 @@ db.Dish
     process.exit(1);
   });
 
+db.User
+  .remove({})
+  .then(() => db.User.collection.insertMany(userSeed))
+  .then(data => {
+    console.log(data.result.n + " user records inserted!");
+    userSeedingDone = true;
+    exitIfDone();
+  })
+  .catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
+
 function exitIfDone() {
-  if (restaurantSeedingDone && dishSeedingDone) {
+  if (restaurantSeedingDone && dishSeedingDone && userSeedingDone) {
     process.exit(0);
   }
 }
