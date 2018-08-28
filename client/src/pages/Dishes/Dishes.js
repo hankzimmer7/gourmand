@@ -22,28 +22,30 @@ class Dishes extends Component {
     
     render() {
         return (
-            
-            <div className="container">
-                <h2>Dishes Page</h2>
-                <Searchbar />
-                <div className ="jumobotron">
-
-                    {this.state.dishes.length ? (
-                    <div className="row">
-                        {this.state.dishes.map(dish => (
-                            <div className="col-12" key={dish._id}>
-                                <div className="card mb-1">
-                                    <div className="card-body">
-                                        <h2 className="card-title"><a href={"/restaurants/" + dish._id}>{dish.name}</a></h2>
-                                        <p className="card-text">{dish.description}</p>
+            <div className="content-area">
+                <div className="container">
+                    <div className="jumbotron">
+                        <h2>Dishes Page</h2>
+                        <Searchbar />
+                        <div className ="jumobotron">
+                            {this.state.dishes.length ? (
+                            <div className="row">
+                                {this.state.dishes.map(dish => (
+                                    <div className="col-12" key={dish._id}>
+                                        <div className="card mb-1">
+                                            <div className="card-body">
+                                                <h2 className="card-title"><a href={"/restaurants/" + dish._id}>{dish.name}</a></h2>
+                                                <p className="card-text">{dish.description}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                ))}
                             </div>
-                        ))}
+                            ) : (
+                            <h3>No Results to Display</h3>
+                        )}                
+                        </div>
                     </div>
-                    ) : (
-                    <h3>No Results to Display</h3>
-                    )}                
                 </div>
             </div>
 

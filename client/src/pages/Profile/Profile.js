@@ -8,11 +8,13 @@ class Profile extends Component {
 
     render() {
         return (
-            <div className="container">
-                <h2>Profile Page</h2>
-
-            <h2>Name</h2>
-
+            <div className="content-area">
+                <div className="container">
+                    <div className="jumbotron">
+                        <h2>Profile Page</h2>
+                        <h3>Name</h3>
+                    </div>
+                </div>
             </div>
         );
     }

@@ -2,9 +2,11 @@ import React from 'react';
 
 const SignIn = () => (
 
-    <div class="sign-in-container">
-        <div >
-            Sign In Page
+    <div class="content-area">
+        <div className="container">
+            <div className="jumbotron">
+                <h2>Sign In</h2>
+            </div>
         </div>
     </div>
 );

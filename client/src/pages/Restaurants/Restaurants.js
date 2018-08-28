@@ -23,10 +23,10 @@ class Restaurants extends Component {
     render() {
         return (
 
-        <div>
+        <div className="content-area">
             <div className="container">
+                <div className ="jumbotron">
                 <h2>Restaurants Page</h2>
-                <div className ="jumobotron">
                 <Searchbar />
                 
                 {this.state.restaurants.length ? (
