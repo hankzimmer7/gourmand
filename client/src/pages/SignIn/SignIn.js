@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class SignIn extends Component {
 
@@ -16,10 +17,25 @@ class SignIn extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault();
-        console.log('sign-up-form, username: ');
-        console.log(this.state.username);
-        console.log('sign-up-form, password: ');
-        console.log(this.state.password);
+
+        //Check if the username is valid
+        axios.get(`/api/users/${this.state.username}`)
+        .then(response => {
+            if(response.data) {
+                const { username, password} = response.data;
+                    //Check the username and password
+                if(username === this.state.username && password === this.state.password) {
+                    console.log("password is correct");
+                    alert("Password is correct!");
+               } else {
+                   console.log("Password incorrect!");
+                   alert("Incorrect password");              
+               };
+            } else {
+                console.log("The username is invalid")
+                alert("Invalid username");
+            }
+        });
     }
 
     render () {

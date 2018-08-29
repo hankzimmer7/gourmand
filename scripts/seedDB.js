@@ -49,11 +49,11 @@ const userSeed = [{
     password: "sushi"
   },
   {
-    name: "Cloud",
+    username: "Cloud",
     password: "buster"
   },
   {
-    name: "Tifa",
+    username: "Tifa",
     password: "gloves"
   }
 ];

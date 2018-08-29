@@ -2,7 +2,7 @@
   "name": "mern",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "server/server.js",
   "proxy": "http://localhost:3001/",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
@@ -22,10 +22,14 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "express": "^4.15.4",
+    "express-session": "^1.15.6",
     "if-env": "^1.0.4",
     "mongoose": "^5.0.17",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
   }
 }
