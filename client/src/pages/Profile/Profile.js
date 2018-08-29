@@ -3,12 +3,33 @@ import React, { Component } from 'react';
 class Profile extends Component {
 
     state = {
-        profile: {}
+        loggedIn: false,
+        user: []
     };
 
     componentDidMount () {
+        console.log("this.props")
         console.log(this.props);
     }
+
+    updateUser () {
+        console.log("Updating user");
+        console.log("this.props:");
+        console.log(this.props);
+
+        if(this.props.user) {
+            console.log("A user is logged in");
+        } else {
+            console.log("No user is logged in");
+        }
+    }
+
+    componentDidUpdate(nextProps) {
+        if(JSON.stringify(this.props.user) !== JSON.stringify(nextProps.user)) // Check if it's a new user, you can also use some unique property, like the ID
+        {
+               this.updateUser();
+        }
+    } 
 
     render() {
         return (

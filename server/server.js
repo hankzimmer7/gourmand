@@ -14,7 +14,8 @@ const PORT = process.env.PORT || 3001;
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// Serve up static assets (usually on heroku)
+
+// Serve up static assets
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
@@ -43,8 +44,8 @@ app.use( (req, res, next) => {
 // Add routes, both API and view
 app.use(routes);
 
-// Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/gourmandDB", { useNewUrlParser: true });
+// Connect to the Mongo DB //This isn't needed since the connection is in database.index.js
+// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/gourmandDB", { useNewUrlParser: true });
 
 // Start the API server
 app.listen(PORT, function() {
