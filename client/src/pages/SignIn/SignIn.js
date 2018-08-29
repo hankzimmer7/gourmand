@@ -30,10 +30,10 @@ class SignIn extends Component {
                 console.log(response)
                 if (response.status === 200) {
                     // update App.js state
-                    this.props.updateUser({
-                        loggedIn: true,
-                        username: response.data.username
-                    })
+                    // this.props.updateUser({
+                    //     loggedIn: true,
+                    //     user: response.data
+                    // })
                     // update the state to redirect to home
                     this.setState({
                         redirectTo: '/profile'
@@ -41,8 +41,7 @@ class SignIn extends Component {
                 }
             }).catch(error => {
                 console.log('login error: ')
-                console.log(error);
-                
+                console.log(error);                
             })
 
         //Check if the username is valid

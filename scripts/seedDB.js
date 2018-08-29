@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const db = require("../models");
+const db = require("../server/database/models");
 
 // This file empties the Restaurants collection and inserts the restaurants below
 
@@ -46,16 +46,18 @@ const dishSeed = [{
 
 const userSeed = [{
     "username": "Hank",
-    "password": "sushi"
-  },
-  {
-    "username": "Cloud",
-    "password": "buster"
-  },
-  {
-    "username": "Tifa",
-    "password": "gloves"
+    "password": "$2a$10$dQEPXlZdsHgj4IMJiYeE3OA06.hiBNe/6IcmttxD9C/ygnDn8D6yG",
+    "city": "Atlanta",
+    "state": "GA"
   }
+  // {
+  //   "username": "Cloud",
+  //   "password": "buster"
+  // },
+  // {
+  //   "username": "Tifa",
+  //   "password": "gloves"
+  // }
 ];
 
 let dishSeedingDone = false;

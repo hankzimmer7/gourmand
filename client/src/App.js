@@ -11,11 +11,15 @@ import Restaurants from './pages/Restaurants';
 import Profile from './pages/Profile';
 
 class App extends Component {
-  
-  state = {
-    loggedIn: false,
-    username: null
-  }
+  	constructor() {
+		super()
+		this.state = {
+			loggedIn: false,
+			user: null
+		}
+		this.logout = this.logout.bind(this)
+		this.login = this.login.bind(this)
+	}
 
   componentDidMount() {
 		axios.get('/api/users').then(response => {
@@ -39,8 +43,28 @@ class App extends Component {
   }
   
   updateUser (userObject) {
-    this.setState (userObject)
+    console.log("updateUser function argument:");
+    console.log(userObject);
+    this.setState(userObject);
   }
+
+  login(username, password) {
+		axios
+			.post('/api/users/login', {
+				username,
+				password
+			})
+			.then(response => {
+				console.log(response)
+				if (response.status === 200) {
+					// update the state
+					this.setState({
+						loggedIn: true,
+						user: response.data.user
+					})
+				}
+			})
+	}
   
   logout(event) {
 		event.preventDefault();
@@ -51,7 +75,7 @@ class App extends Component {
 			if (response.status === 200) {
 				this.setState({
 					loggedIn: false,
-					user: null
+					username: null
 				})
 			}
 		})
@@ -68,11 +92,11 @@ class App extends Component {
           <div>
             <Switch>
               <Route exact path="/" component={Landing} />
-              <Route exact path="/sign_in" component={SignIn} />
+              <Route exact path="/sign_in" render={() => <SignIn updateUser={this.updateUser} />} />
               <Route exact path="/create_account" component={CreateAccount} />
               <Route exact path="/dishes" component={Dishes} />
               <Route exact path="/restaurants" component={Restaurants} />
-              <Route exact path="/profile" component={Profile} />
+              <Route exact path="/profile" render={() => <Profile user={this.state.user} />} />
             </Switch>
           </div>
         </Router>

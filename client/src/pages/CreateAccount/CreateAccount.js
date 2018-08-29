@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 import axios from 'axios';
 
 class CreateAccount extends Component {
@@ -8,7 +9,8 @@ class CreateAccount extends Component {
         password: '',
         confirmPassword: '',
         usernameMessage: 'Please choose a unique username',
-        validUsername: false    
+        validUsername: false,
+        redirectTo: null 
     }
 
     handleInputChange = event => {
@@ -52,7 +54,7 @@ class CreateAccount extends Component {
                    .then(response => {
                        if (response.data) {
                            this.setState({
-                               redirectTo: '/dishes'
+                               redirectTo: '/profile'
                            })
                        } else {
                            console.log('Sign-up error');
@@ -69,51 +71,55 @@ class CreateAccount extends Component {
 
         const validUsername = this.state.validUsername;
 
-        return (
-            <div className="content-area">
-                <div className="container">
-                    <div className="jumbotron">
-                        <h2>Create an Account</h2>
-                        <form action="/login" method="post">
-                            <div className="form-group">
-                                <label htmlFor="username">Username:</label>
-                                <input 
-                                    type="text" 
-                                    className="form-control" 
-                                    name="username" 
-                                    placeholder="Username"
-                                    value={this.state.username}
-                                    onChange={this.handleInputChange}
-                                />
-                                <small id="usernameHelp" className="form-text">{this.state.usernameMessage}</small>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="password">Password:</label>
-                                <input 
-                                    type="password" 
-                                    className="form-control" 
-                                    name="password" 
-                                    placeholder="Password"
-                                    value={this.state.password}
-                                    onChange={this.handleInputChange}
-                                />
-                            </div>
-                            <div>
-                                <button 
-                                    type="submit" 
-                                    className="btn btn-primary" 
-                                    value="Log In"
-                                    onClick={this.handleFormSubmit}
-                                    disabled={!validUsername}
-                                    >
-                                    Create Account
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>    
-            </div>
-        )
+        if (this.state.redirectTo) {
+            return <Redirect to={{ pathname: this.state.redirectTo }} />
+        } else {
+            return (
+                <div className="content-area">
+                    <div className="container">
+                        <div className="jumbotron">
+                            <h2>Create an Account</h2>
+                            <form action="/login" method="post">
+                                <div className="form-group">
+                                    <label htmlFor="username">Username:</label>
+                                    <input 
+                                        type="text" 
+                                        className="form-control" 
+                                        name="username" 
+                                        placeholder="Username"
+                                        value={this.state.username}
+                                        onChange={this.handleInputChange}
+                                    />
+                                    <small id="usernameHelp" className="form-text">{this.state.usernameMessage}</small>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="password">Password:</label>
+                                    <input 
+                                        type="password" 
+                                        className="form-control" 
+                                        name="password" 
+                                        placeholder="Password"
+                                        value={this.state.password}
+                                        onChange={this.handleInputChange}
+                                    />
+                                </div>
+                                <div>
+                                    <button 
+                                        type="submit" 
+                                        className="btn btn-primary" 
+                                        value="Log In"
+                                        onClick={this.handleFormSubmit}
+                                        disabled={!validUsername}
+                                        >
+                                        Create Account
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>    
+                </div>
+            )
+        }
     };
 };
 
