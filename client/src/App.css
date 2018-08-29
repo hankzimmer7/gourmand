@@ -2,6 +2,9 @@ h1 {
   font-family: 'Lily Script One', cursive;
   font-size: 5rem;
 }
+a:hover {
+  cursor: pointer;
+}
 
 .content-area {
   background-image: url('./images/food-background.jpg');

@@ -5,8 +5,8 @@ const routes = require("./routes");
 const app = express();
 const morgan = require('morgan');
 const session = require('express-session');
-// const dbConnection = require('./database') 
-// const MongoStore = require('connect-mongo')(session)
+const dbConnection = require('./database') 
+const MongoStore = require('connect-mongo')(session)
 const passport = require('./passport');
 const PORT = process.env.PORT || 3001;
 
@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(
   session({
   secret: 'taco-tuesday', //pick a random string to make the hash that is generated secure
-  // store: new MongoStore({ mongooseConnection: dbConnection }),
+  store: new MongoStore({ mongooseConnection: dbConnection }),
   resave: false, //required
   saveUninitialized: false //required
   })

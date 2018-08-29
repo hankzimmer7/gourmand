@@ -9,52 +9,52 @@ mongoose.connect(
 );
 
 const restaurantSeed = [{
-    name: "Umma's House",
-    description: "Japanese Korean Restaurant"
+    "name": "Umma's House",
+    "description": "Japanese Korean Restaurant"
   },
   {
-    name: "Waffle House",
-    description: "Breakfast Restaurant"
+    "name": "Waffle House",
+    "description": "Breakfast Restaurant"
   },
   {
-    name: "Moe's Southwest Grill",
-    description: "Counter-serve chain for burritoes"
+    "name": "Moe's Southwest Grill",
+    "description": "Counter-serve chain for burritoes"
   },
   {
-    name: "Subway",
-    description: "Sandwich chain"
+    "name": "Subway",
+    "description": "Sandwich chain"
   }
 ];
 
 const dishSeed = [{
-    name: "Crunchy Dragon Role",
-    description: "Eel, Fish roe, Tempura flake top on California roll"
+    "name": "Crunchy Dragon Role",
+    "description": "Eel, Fish roe, Tempura flake top on California roll"
   },
   {
-    name: "Spicy Chicken Bento",
-    description: "Spicy marinated deep fried chicken. 4 Pieces of California roll, Salad, Egg Roll, Steamed Rice"
+    "name": "Spicy Chicken Bento",
+    "description": "Spicy marinated deep fried chicken. 4 Pieces of California roll, Salad, Egg Roll, Steamed Rice"
   },
   {
-    name: "Bibimbob",
-    description: "Seasoned beef, Stir fried 5 types Vegetables. Mushroom, Carrot, Bean Sprout, Radish, Sweet Potato Stem, Royal Fern Pepper Paste, Egg etc."
+    "name": "Bibimbob",
+    "description": "Seasoned beef, Stir fried 5 types Vegetables. Mushroom, Carrot, Bean Sprout, Radish, Sweet Potato Stem, Royal Fern Pepper Paste, Egg etc."
   },
   {
-    name: "Korean Beef BBQ Bento",
-    description: "Marinated Thin Sliced Rib eye steak, Onion and Carrot. 4 Pieces of California roll, Salad, Egg Roll, Steamed Rice"
+    "name": "Korean Beef BBQ Bento",
+    "description": "Marinated Thin Sliced Rib eye steak, Onion and Carrot. 4 Pieces of California roll, Salad, Egg Roll, Steamed Rice"
   }
 ];
 
 const userSeed = [{
-    username: "Hank",
-    password: "sushi"
+    "username": "Hank",
+    "password": "sushi"
   },
   {
-    username: "Cloud",
-    password: "buster"
+    "username": "Cloud",
+    "password": "buster"
   },
   {
-    username: "Tifa",
-    password: "gloves"
+    "username": "Tifa",
+    "password": "gloves"
   }
 ];
 

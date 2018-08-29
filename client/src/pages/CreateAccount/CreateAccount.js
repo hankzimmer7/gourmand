@@ -4,9 +4,10 @@ import axios from 'axios';
 class CreateAccount extends Component {
 
     state = {
-        username: "",
-        password: "",
-        usernameMessage: "Please choose a unique username",
+        username: '',
+        password: '',
+        confirmPassword: '',
+        usernameMessage: 'Please choose a unique username',
         validUsername: false    
     }
 
@@ -21,7 +22,7 @@ class CreateAccount extends Component {
             .then(response => {
                 if(response.data) {
                     this.setState({
-                        usernameMessage: "Username already taken",
+                        usernameMessage: 'Username already taken',
                         validUsername: false
                     })
                } else {

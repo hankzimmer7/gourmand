@@ -1,7 +1,7 @@
 import React from 'react';
 import './Navbar.css';
 
-const Title = () => (
+const Navbar = props => (
 
 <nav className="navbar navbar-expand-md navbar-light bg-light">
     <a className="navbar-brand " href="/">
@@ -22,9 +22,13 @@ const Title = () => (
       <li className="nav-item">
         <a className="nav-link" href="/Profile">Profile</a>
       </li>
+      <li className="nav-item">
+        <a className="nav-link" onClick={props.logout}>Logout</a>
+      </li>
     </ul>
+    Welcome, {props.loggedIn ? props.user.username : "Guest"}!
   </div>
 </nav>
 )
 
-export default Title;
+export default Navbar
