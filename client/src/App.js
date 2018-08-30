@@ -110,7 +110,7 @@ class App extends Component {
               <Route exact path="/create_account" render={() => <CreateAccount updateUser={this.updateUser} />} />
               <Route exact path="/dishes" component={Dishes} />
               <Route exact path="/restaurants" component={Restaurants} />
-              <Route exact path="/profile" render={() => <Profile user={this.state.user} />} />
+							<Route exact path="/profile" render={() => <Profile user={this.state.user} loggedIn={this.state.loggedIn}/>} /> 
             </Switch>
           </div>
         </Router>

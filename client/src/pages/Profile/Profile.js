@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 
 class Profile extends Component {
 
@@ -32,17 +33,21 @@ class Profile extends Component {
     } 
 
     render() {
-        return (
-            <div className="content-area">
-                <div className="container">
-                    <div className="jumbotron">
-                        <h2>Profile Page</h2>
-                        <h3>{this.props.user && this.props.user.username}</h3>
-                        <h3>{this.props.user && (this.props.user.city, this.props.user.state)}</h3>
+        if (!this.props.loggedIn) {
+            return <Redirect to="/sign_in" />
+        } else {
+            return (
+                <div className="content-area">
+                    <div className="container">
+                        <div className="jumbotron">
+                            <h2>Profile Page</h2>
+                            <h3>{this.props.user && this.props.user.username}</h3>
+                            <h3>{this.props.user && (this.props.user.city, this.props.user.state)}</h3>
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
     
