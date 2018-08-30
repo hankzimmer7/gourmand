@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import API from "../../utils/API";
 import Searchbar from '../../components/Searchbar';
 
-class Restaurants extends Component {
+class RestaurantSearch extends Component {
     state = {
         restaurants: [],
-        googlePlacesApiKey: "AIzaSyAuoNJE7m_i1c1zl5H5cw3cXMRDw6XFve8",
     };
 
     componentDidMount() {
@@ -26,7 +25,7 @@ class Restaurants extends Component {
         <div className="content-area">
             <div className="container">
                 <div className ="jumbotron">
-                <h2>Restaurants Page</h2>
+                <h2>Restaurant Search Page</h2>
                 <Searchbar />
                 
                 {this.state.restaurants.length ? (
@@ -43,7 +42,7 @@ class Restaurants extends Component {
                     ))}
                 </div>
                 ) : (
-                <h3>No Results to Display</h3>
+                <h3>Loading Results...</h3>
                 )}                
                 </div>
             </div>
@@ -52,4 +51,4 @@ class Restaurants extends Component {
     };
 };
     
-export default Restaurants;
+export default RestaurantSearch;

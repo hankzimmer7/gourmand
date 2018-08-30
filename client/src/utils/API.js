@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default {
     // Gets all restaurants
@@ -7,11 +7,15 @@ export default {
     },
     // Gets the restaurant with the given id
     getRestaurant: function (id) {
-        return axios.get("/api/restaurants/" + id);
+        return axios.get(`/api/restaurants/${id}`);
     },
 
     // Gets all dishes
     getDishes: function () {
         return axios.get("/api/dishes");
+    },
+    // Get the dish with the given id
+    getDish: function (id) {
+        return axios.get(`/api/dishes/${id}`);
     },
 };

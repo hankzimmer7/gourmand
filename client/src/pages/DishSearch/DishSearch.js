@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import API from "../../utils/API";
 import Searchbar from '../../components/Searchbar';
 
-class Dishes extends Component {
+class DishSearch extends Component {
     state = {
         dishes: [],
-        googlePlacesApiKey: "AIzaSyAuoNJE7m_i1c1zl5H5cw3cXMRDw6XFve8",
+        queryTerm: "",
+        reviews: []
     };
 
       componentDidMount() {
@@ -25,7 +26,7 @@ class Dishes extends Component {
             <div className="content-area">
                 <div className="container">
                     <div className="jumbotron">
-                        <h2>Dishes Page</h2>
+                        <h2>Dish Search Page</h2>
                         <Searchbar />
                         <div className ="jumobotron">
                             {this.state.dishes.length ? (
@@ -34,7 +35,7 @@ class Dishes extends Component {
                                     <div className="col-12" key={dish._id}>
                                         <div className="card mb-1">
                                             <div className="card-body">
-                                                <h2 className="card-title"><a href={"/restaurants/" + dish._id}>{dish.name}</a></h2>
+                                                <h2 className="card-title"><a href={`restaurants/${dish.restaurant_id}/dishes/${dish._id}`}>{dish.name}</a></h2>
                                                 <p className="card-text">{dish.description}</p>
                                             </div>
                                         </div>
@@ -42,7 +43,7 @@ class Dishes extends Component {
                                 ))}
                             </div>
                             ) : (
-                            <h3>No Results to Display</h3>
+                            <h3>Loading Results...</h3>
                         )}                
                         </div>
                     </div>
@@ -55,4 +56,4 @@ class Dishes extends Component {
 
 
     
-export default Dishes;
+export default DishSearch;

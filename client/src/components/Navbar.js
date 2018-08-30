@@ -14,10 +14,10 @@ const Navbar = props => (
   <div className="collapse navbar-collapse" id="navbarSupportedContent">
     <ul className="navbar-nav mr-auto">
       <li className="nav-item">
-        <a className="nav-link" href="/dishes">Dishes</a>
+        <a className="nav-link" href="/dish_search">Dishes</a>
       </li>
       <li className="nav-item">
-        <a className="nav-link" href="/restaurants">Restaurants</a>
+        <a className="nav-link" href="/restaurant_search">Restaurants</a>
       </li>
       <li className="nav-item">
         <a className="nav-link" href="/Profile">Profile</a>

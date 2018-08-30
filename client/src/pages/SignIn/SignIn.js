@@ -19,16 +19,12 @@ class SignIn extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault();
-
-        console.log('SignIn.js is about to post to /api/users/login');
         axios
             .post('/api/users/login', {
                 username: this.state.username,
                 password: this.state.password
             })
             .then(response => {
-                console.log('SignIn.js got the following response after posting to api/users/login: ', response);
-                console.log('response.data is:', response.data);
                 if (response.status === 200) {
                     // update App.js state
                     this.props.updateUser({
