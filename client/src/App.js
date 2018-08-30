@@ -11,17 +11,25 @@ import Restaurants from './pages/Restaurants';
 import Profile from './pages/Profile';
 
 class App extends Component {
-  	constructor() {
-		super()
-		this.state = {
+
+		state = {
 			loggedIn: false,
 			user: null
 		}
-		this.logout = this.logout.bind(this)
-		this.login = this.login.bind(this)
-	}
 
-  componentDidMount() {
+		//commented out constructor on 8/30/18. If the app keeps working, delete this
+  // 	constructor() {
+	// 	super()
+	// 	this.state = {
+	// 		loggedIn: false,
+	// 		user: null
+	// 	}
+	// 	this.logout = this.logout.bind(this)
+	// 	this.login = this.login.bind(this)
+	// }
+
+  componentDidMount = () => {
+		console.log("Querying axios.get('/api/users/current')")
 		axios.get('/api/users').then(response => {
 			if (response.data.user) {
         console.log("A user is logged in");
@@ -42,46 +50,52 @@ class App extends Component {
 		})
   }
   
-  updateUser (userObject) {
+  updateUser = userObject => {
     console.log("updateUser function argument:");
     console.log(userObject);
     this.setState(userObject);
   }
 
-  login(username, password) {
+  login = (username, password) => {
+
+		console.log("App.js login function executing. Setting logginIn to true and user to response.data.user");
 		axios
 			.post('/api/users/login', {
 				username,
 				password
 			})
 			.then(response => {
+				console.log("App.js got response from post request to /api/users/login. Response:")
 				console.log(response)
 				if (response.status === 200) {
 					// update the state
 					this.setState({
 						loggedIn: true,
-						user: response.data.user
+						user: response.user
 					})
 				}
 			})
 	}
   
-  logout(event) {
+  logout = (event) => {
 		event.preventDefault();
-    console.log('logging out');
-    alert("logged out");
+    console.log('App logout function executing. logged in should update to false and username to null');
 		axios.post('/api/users/logout').then(response => {
 			console.log(response.data)
 			if (response.status === 200) {
 				this.setState({
 					loggedIn: false,
-					username: null
+					user: null
 				})
 			}
 		})
 	}
   
   render() {
+
+		console.log("App this.state: ");
+		console.log(this.state);
+
     return (
       <div>
         <Navbar 
@@ -93,7 +107,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={Landing} />
               <Route exact path="/sign_in" render={() => <SignIn updateUser={this.updateUser} />} />
-              <Route exact path="/create_account" component={CreateAccount} />
+              <Route exact path="/create_account" render={() => <CreateAccount updateUser={this.updateUser} />} />
               <Route exact path="/dishes" component={Dishes} />
               <Route exact path="/restaurants" component={Restaurants} />
               <Route exact path="/profile" render={() => <Profile user={this.state.user} />} />

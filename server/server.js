@@ -1,6 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
 const routes = require("./routes");
 const app = express();
 const morgan = require('morgan');
@@ -37,15 +36,12 @@ app.use(passport.session()) // calls serializeUser and deserializeUser
 
 // Displays the session info
 app.use( (req, res, next) => {
-  console.log('req.session', req.session);
+  console.log('req.session:\n\n', req.session, '\n');
   return next();
 });
 
 // Add routes, both API and view
 app.use(routes);
-
-// Connect to the Mongo DB //This isn't needed since the connection is in database.index.js
-// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/gourmandDB", { useNewUrlParser: true });
 
 // Start the API server
 app.listen(PORT, function() {

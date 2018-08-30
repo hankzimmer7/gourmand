@@ -41,21 +41,47 @@ class CreateAccount extends Component {
     handleFormSubmit = event => {
         event.preventDefault();
         //Check if there is already a user with that username
+        console.log("CreateAccount.js sending a get request to /api/users");
         axios.get(`/api/users/${this.state.username}`)
         .then(response => {
             if(response.data) {
                 console.log("There is already a user by that name");
            } else {
                console.log("There is no user by that name");
+               console.log('CreateAccount.js is about to post to /api/users')
                axios.post('/api/users/', {
                    username: this.state.username,
                    password: this.state.password
                })
                    .then(response => {
                        if (response.data) {
+                           console.log('response from post request to /api/users', response);
                            this.setState({
                                redirectTo: '/profile'
                            })
+
+                           //Login to the newly created account
+                           console.log('CreateAccount.js is about to post to /api/users/login');
+                           axios
+                               .post('/api/users/login', {
+                                   username: this.state.username,
+                                   password: this.state.password
+                               })
+                               .then(response => {
+                                   console.log('CreateAccount.js got the following response after posting to api/users/login: ', response);
+                                   console.log('response.data is:', response.data);
+                                   if (response.status === 200) {
+                                       // update App.js state
+                                       this.props.updateUser({
+                                           loggedIn: true,
+                                           user: response.data
+                                       })
+                                   }
+                               }).catch(error => {
+                                   console.log('login error: ')
+                                   console.log(error);                
+                               })
+
                        } else {
                            console.log('Sign-up error');
                        }
@@ -68,8 +94,6 @@ class CreateAccount extends Component {
     };
 
     render() {
-
-        const validUsername = this.state.validUsername;
 
         if (this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
@@ -109,7 +133,7 @@ class CreateAccount extends Component {
                                         className="btn btn-primary" 
                                         value="Log In"
                                         onClick={this.handleFormSubmit}
-                                        disabled={!validUsername}
+                                        disabled={!this.state.validUsername}
                                         >
                                         Create Account
                                     </button>

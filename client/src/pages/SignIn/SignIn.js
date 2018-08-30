@@ -20,20 +20,21 @@ class SignIn extends Component {
     handleFormSubmit = event => {
         event.preventDefault();
 
+        console.log('SignIn.js is about to post to /api/users/login');
         axios
             .post('/api/users/login', {
                 username: this.state.username,
                 password: this.state.password
             })
             .then(response => {
-                console.log('login response: ')
-                console.log(response)
+                console.log('SignIn.js got the following response after posting to api/users/login: ', response);
+                console.log('response.data is:', response.data);
                 if (response.status === 200) {
                     // update App.js state
-                    // this.props.updateUser({
-                    //     loggedIn: true,
-                    //     user: response.data
-                    // })
+                    this.props.updateUser({
+                        loggedIn: true,
+                        user: response.data
+                    })
                     // update the state to redirect to home
                     this.setState({
                         redirectTo: '/profile'
@@ -43,25 +44,6 @@ class SignIn extends Component {
                 console.log('login error: ')
                 console.log(error);                
             })
-
-        //Check if the username is valid
-        // axios.get(`/api/users/${this.state.username}`)
-        // .then(response => {
-        //     if(response.data) {
-        //         const { username, password} = response.data;
-        //             //Check the username and password
-        //         if(username === this.state.username && password === this.state.password) {
-        //             console.log("password is correct");
-        //             alert("Password is correct!");
-        //        } else {
-        //            console.log("Password incorrect!");
-        //            alert("Incorrect password");              
-        //        };
-        //     } else {
-        //         console.log("The username is invalid")
-        //         alert("Invalid username");
-        //     }
-        // });
     }
 
     render () {
