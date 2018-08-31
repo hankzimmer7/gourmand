@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import API from "../../utils/API";
+import moment from 'moment';
 
 class Dish extends Component {
     state = {
@@ -8,14 +9,15 @@ class Dish extends Component {
         dishLoaded: false,
         reviewsLoaded: false,
         reviewRating: '',
-        reviewBody: ''
+        reviewBody: '',
+        dateVisited: ''
     };
 
     componentDidMount() {
         // console.log("Dish.js component mounted");
         // console.log("this.match.params", this.props.match.params);
         this.loadDish(this.props.match.params.dish);
-        this.loadReviews(this.props.match.params.dish);
+        this.loadReviews();
     };
     
     loadDish = (id) => {
@@ -31,10 +33,12 @@ class Dish extends Component {
         .catch(err => console.log(err));
     };
 
-    loadReviews = (dishId) => {
+    //Load the reviews for the current dish
+    loadReviews = () => {
+        const dishId = this.props.match.params.dish
         API.getDishReviews(dishId)
             .then(response => {
-                console.log("Dish.js loadReview api result", response);
+                // console.log("Dish.js loadReview api result", response);
                 this.setState({ 
                     reviews: response.data,
                     reviewsLoaded: true
@@ -44,6 +48,7 @@ class Dish extends Component {
         .catch(err => console.log(err));
     };
 
+    //Handle changes to the input form for adding a review
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({
@@ -51,42 +56,49 @@ class Dish extends Component {
         });
     };
 
+    //Submit a new review when the user clicks the submit button
     handleReviewSubmit = event => {
         event.preventDefault();
         const newReview = {
-            author_id: "need to add",
+            author_id: this.props.user._id,
             dish_id: this.state.dish._id,
             rating: this.state.reviewRating.slice(0,1),
-            body: this.state.reviewBody
+            body: this.state.reviewBody,
+            date: this.state.dateVisited
         }
-        console.log("new review: ", newReview);
-        // axios
-        //     .post('/api/users/login', {
-        //         username: this.state.username,
-        //         password: this.state.password
-        //     })
-        //     .then(response => {
-        //         if (response.status === 200) {
-        //             // update App.js state
-        //             this.props.updateUser({
-        //                 loggedIn: true,
-        //                 user: response.data
-        //             })
-        //             // update the state to redirect to home
-        //             this.setState({
-        //                 redirectTo: '/profile'
-        //             })
-        //         }
-        //     }).catch(error => {
-        //         console.log('login error: ')
-        //         console.log(error);                
-        //     })
+        // console.log("new review: ", newReview);
+        API.addReview(newReview)
+            .then(response => {
+                console.log("addreview repsonse: ", response);
+                this.setState({
+                    reviewRating: '',
+                    reviewBody: '',
+                    dateVisited: ''
+                })
+                this.loadReviews();
+            }).catch(error => {
+                console.log('Error posting review: ')
+                console.log(error);                
+            })
+    }
+
+    handleDeleteReview = id => {
+        console.log("Clicked delete review for review Id: ", id)
+        API.deleteReview(id)
+            .then(response => {
+                console.log("Delete review response: ", response);
+                this.loadReviews();
+            }).catch(error => {
+                console.log('Error deleting review: ')
+                console.log(error);   
+            })
     }
     
     render() {
 
-        console.log("Dish.js this.state",this.state);
-        console.log("Dish.js this.props", this.props);
+        // console.log("Dish.js this.state",this.state);
+        // console.log("Dish.js this.props", this.props);
+        // console.log("Dish.js this", this);
 
         return (
             <div className="content-area">
@@ -137,9 +149,20 @@ class Dish extends Component {
                                      >
                                      </textarea>
                                 </div>
+                                <div className="form-group">
+                                    <label htmlFor="dateVisitedInput">Date Visited</label>
+                                    <input 
+                                        name="dateVisited"
+                                        type="date" 
+                                        className="form-control" 
+                                        id="dateVisitedInput"
+                                        value={this.state.dateVisited}
+                                        onChange={this.handleInputChange}
+                                    />
+                                </div>
                                 <button 
                                     type="submit" 
-                                    className="btn btn-primary"
+                                    className="btn btn-primary btn-lg"
                                     onClick={this.handleReviewSubmit}
                                 >
                                     Submit My Review
@@ -152,7 +175,14 @@ class Dish extends Component {
                                     <div className="card mb-1">
                                         <div className="card-body">
                                             <h2 className="card-title">{review.rating} Stars</h2>
+                                            <p className="card-text">{moment(review.date).format('MMMM Do, YYYY')}</p>
                                             <p className="card-text">{review.body}</p>
+                                            <button 
+                                                className="btn btn-primary"
+                                                onClick={() => this.handleDeleteReview(review._id)}
+                                            >
+                                                Delete Review
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

@@ -5,7 +5,7 @@ module.exports = {
   findAll: function(req, res) {
     db.Review
       .find(req.query)
-      .sort({ name: -1 })
+      .sort({ date: 1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -19,6 +19,7 @@ module.exports = {
       console.log('hit reviews controller.js find dish by id. req.params: ', req.params);
     db.Review
       .find({dish_id: req.params.dishId})
+      .sort({ date: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -35,9 +36,9 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   remove: function(req, res) {
+    console.log("Hit reviews controller remove function. req.params: ", req.params);
     db.Review
-      .findById({ _id: req.params.id })
-      .then(dbModel => dbModel.remove())
+      .deleteOne({ _id: req.params.id })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   }
