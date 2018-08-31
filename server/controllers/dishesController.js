@@ -33,11 +33,15 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  remove: function(req, res) {
+  delete: function(req, res) {
     db.Dish
-      .findById({ _id: req.params.id })
-      .then(dbModel => dbModel.remove())
-      .then(dbModel => res.json(dbModel))
+      .deleteOne({ _id: req.params.id })
+      .then(
+        db.Review
+          .deleteMany({dish_id: req.params.id })
+          .then(dbModel => res.json(dbModel))
+          .catch(err => res.status(422).json(err))
+      )
       .catch(err => res.status(422).json(err));
   }
 };

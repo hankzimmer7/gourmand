@@ -31,6 +31,10 @@ export default {
     addDish: function (newDish) {
         return axios.post(`/api/dishes/`, newDish);
     },
+    //Add a new dish
+    deleteDish: function (dishId) {
+        return axios.delete(`/api/dishes/${dishId}`, dishId);
+    },
 
     //---------------Review Routes---------------
 

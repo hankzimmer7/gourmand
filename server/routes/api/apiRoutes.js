@@ -30,7 +30,7 @@ router
   .route("/dishes/:id")
   .get(dishesController.findById)
   .put(dishesController.update)
-  .delete(dishesController.remove);
+  .delete(dishesController.delete);
 
 // Matches with "/api/dishes/:dishId/reviews"
 router.route("/dishes/:dishId/reviews")
