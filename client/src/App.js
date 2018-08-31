@@ -3,6 +3,7 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import './App.css';
 import Navbar from './components/Navbar';
+import Loader from './components/Loader';
 import Landing from './pages/Landing';
 import SignIn from './pages/SignIn';
 import CreateAccount from './pages/CreateAccount';
@@ -16,7 +17,8 @@ class App extends Component {
 
 	state = {
 		loggedIn: false,
-		user: null
+		user: null,
+		userCheckDone: false
 	}
 
   componentDidMount = () => {
@@ -28,14 +30,16 @@ class App extends Component {
         // console.log(response.data);
 				this.setState({
 					loggedIn: true,
-					user: response.data.user
+					user: response.data.user,
+					userCheckDone: true
 				})
 			} else {
         // console.log("There is no user logged in. Response.data:");
         // console.log("Response.data?");
 				this.setState({
 					loggedIn: false,
-					user: null
+					user: null,
+					userCheckDone: true
 				})
 			}
 		})
@@ -89,25 +93,42 @@ class App extends Component {
 
     return (
       <div>
-        <Navbar 
-          user={this.state.user}
-          logout={this.logout}
-          loggedIn={this.state.loggedIn}/>
-        <Router>
-          <div>
-            <Switch>
-              <Route exact path="/" component={Landing} />
-              <Route exact path="/sign_in" render={() => <SignIn updateUser={this.updateUser} />} />
-              <Route exact path="/create_account" render={() => <CreateAccount updateUser={this.updateUser} />} />
-              <Route exact path="/dish_search" component={DishSearch} />
-              <Route exact path="/restaurant_search" component={RestaurantSearch} />
-              <Route exact path="/restaurants/:restaurant" render={(routeProps) => <Restaurant {...routeProps} user={this.state.user} loggedIn={this.state.loggedIn}/>} />
-              {/* <Route exact path="/restaurants/:restaurant" component={Restaurant} /> */}
-              <Route exact path="/restaurants/:restaurant/dishes/:dish" render={(routeProps) => <Dish {...routeProps} user={this.state.user} loggedIn={this.state.loggedIn}/>} />
-							<Route exact path="/profile" render={() => <Profile user={this.state.user} loggedIn={this.state.loggedIn}/>} /> 
-            </Switch>
-          </div>
-        </Router>
+				{this.state.userCheckDone ? (
+					<div>
+						<Navbar 
+							user={this.state.user}
+							logout={this.logout}
+							loggedIn={this.state.loggedIn}
+						/>
+						<Router>
+							<div>
+								<Switch>
+									<Route exact path="/" component={Landing} />
+									<Route exact path="/sign_in" render={() => <SignIn updateUser={this.updateUser} />} />
+									<Route exact path="/create_account" render={() => <CreateAccount updateUser={this.updateUser} />} />
+									<Route exact path="/dish_search" component={DishSearch} />
+									<Route exact path="/restaurant_search" component={RestaurantSearch} />
+									<Route 
+										exact path="/restaurants/:restaurant" 
+										render={(routeProps) => <Restaurant {...routeProps} 
+										user={this.state.user} 
+										loggedIn={this.state.loggedIn}/>} 
+									/>
+									<Route 
+										exact path="/restaurants/:restaurant/dishes/:dish" 
+										render={(routeProps) => <Dish {...routeProps} 
+										user={this.state.user} 
+										loggedIn={this.state.loggedIn} 
+										userCheckDone={this.state.userCheckDone}/>} 
+									/>
+									<Route exact path="/profile" render={() => <Profile user={this.state.user} loggedIn={this.state.loggedIn}/>} /> 
+								</Switch>
+							</div>
+						</Router>
+					</div>
+				) : (
+					<Loader />
+				)}
       </div>
     );
   }
