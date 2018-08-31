@@ -102,7 +102,7 @@ class App extends Component {
               <Route exact path="/dish_search" component={DishSearch} />
               <Route exact path="/restaurant_search" component={RestaurantSearch} />
               <Route exact path="/restaurants/:restaurant" component={Restaurant} />
-              <Route exact path="/restaurants/:restaurant/dishes/:dish" component={Dish} />
+              <Route exact path="/restaurants/:restaurant/dishes/:dish" component={Dish} user={this.state.user} loggedIn={this.state.loggedIn} />
 							<Route exact path="/profile" render={() => <Profile user={this.state.user} loggedIn={this.state.loggedIn}/>} /> 
             </Switch>
           </div>

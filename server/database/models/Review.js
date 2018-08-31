@@ -6,6 +6,7 @@ const ReviewSchema = new Schema({
   author_id: { type: String, required: true },
   rating: Number,
   body: { type: String, required: true },
+  date: {type: Date, default: Date.now}
 });
 
 const Review = mongoose.model("Review", ReviewSchema);
