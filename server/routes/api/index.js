@@ -1,13 +1,14 @@
 const router = require("express").Router();
-const restaurantRoutes = require("./restaurants");
-const dishRoutes = require("./dishes");
-const userRoutes = require("./users");
-const reviewRoutes = require('./reviews');
+// const restaurantRoutes = require("./restaurants");
+// const dishRoutes = require("./dishes");
+const apiRoutes = require("./apiRoutes");
+const userRoutes = require("./userRoutes");
+// const reviewRoutes = require('./reviews');
 
-// Restaurant routes
-router.use("/restaurants", restaurantRoutes);
-router.use("/dishes", dishRoutes);
+// router.use("/restaurants", restaurantRoutes);
+// router.use("/dishes", dishRoutes);
 router.use("/users", userRoutes);
-router.use("/reviews", reviewRoutes);
+router.use('/', apiRoutes);
+// router.use("/reviews", reviewRoutes);
 
 module.exports = router;

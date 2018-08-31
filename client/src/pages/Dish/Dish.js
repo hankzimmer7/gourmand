@@ -172,25 +172,25 @@ class Dish extends Component {
                                 <div className="row">
                                     {this.state.reviews.map(review => (
                                     <div className="col-12" key={review._id}>
-                                    <div className="card mb-1">
-                                        <div className="card-body">
-                                            <h2 className="card-title">{review.rating} Stars</h2>
-                                            <p className="card-text">{moment(review.date).format('MMMM Do, YYYY')}</p>
-                                            <p className="card-text">{review.body}</p>
-                                            <button 
-                                                className="btn btn-primary"
-                                                onClick={() => this.handleDeleteReview(review._id)}
-                                            >
-                                                Delete Review
-                                            </button>
+                                        <div className="card mb-1">
+                                            <div className="card-body">
+                                                <h2 className="card-title">{review.rating} Stars</h2>
+                                                <p className="card-text">{moment(review.date).format('MMMM Do, YYYY')}</p>
+                                                <p className="card-text">{review.body}</p>
+                                                <button 
+                                                    className="btn btn-primary"
+                                                    onClick={() => this.handleDeleteReview(review._id)}
+                                                >
+                                                    Delete Review
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                        ) : (
-                        <h3>Loading Reviews...</h3>
-                    )}                
+                            ) : (
+                            <h3>Loading Reviews...</h3>
+                            )}                
                         </div>
                     </div>
                 </div>

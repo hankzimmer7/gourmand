@@ -1,6 +1,9 @@
 import axios from 'axios';
 
 export default {
+
+    //---------------Restaurant Routes---------------
+
     // Gets all restaurants
     getRestaurants: function () {
         return axios.get("/api/restaurants");
@@ -10,14 +13,26 @@ export default {
         return axios.get(`/api/restaurants/${id}`);
     },
 
+    //---------------Dish Routes---------------
+
     // Gets all dishes
-    getDishes: function () {
+    getAllDishes: function () {
         return axios.get("/api/dishes");
+    },
+    // Gets all dishes for the given restaurant
+    getRestaurantDishes: function (restaurantId) {
+        return axios.get(`/api/restaurants/${restaurantId}/dishes`);
     },
     // Get the dish with the given id
     getDish: function (id) {
         return axios.get(`/api/dishes/${id}`);
     },
+    //Add a new dish
+    addDish: function (newDish) {
+        return axios.post(`/api/dishes/`, newDish);
+    },
+
+    //---------------Review Routes---------------
 
     // Get the reviews with the given dish id
     getDishReviews: function (dishId) {
@@ -25,11 +40,11 @@ export default {
     },
 
     //Add a new review
-    addReview: function(newReview) {
+    addReview: function (newReview) {
         return axios.post(`/api/reviews/`, newReview);
     },
     //Add a new review
-    deleteReview: function(id) {
+    deleteReview: function (id) {
         return axios.delete(`/api/reviews/${id}`, id);
     }
 };

@@ -1,33 +1,60 @@
 import React, { Component } from 'react';
 import API from "../../utils/API";
-import Searchbar from '../../components/Searchbar';
 
 class DishSearch extends Component {
     state = {
         dishes: [],
-        queryTerm: "",
-        reviews: []
+        dishesLoaded: [],
+        searchTerm: '',
     };
 
-      componentDidMount() {
+    //Once the component mounts, load dishes
+    componentDidMount() {
         this.loadDishes();
     };
     
+    //Load all dishes
     loadDishes = () => {
-        API.getDishes()
+        API.getAllDishes()
             .then(res =>
-            this.setState({ dishes: res.data})
+            this.setState({ 
+                dishes: res.data,
+                dishesLoaded: true
+            })            
             )
             .catch(err => console.log(err));
     };
+
+    //Handle changes to the input form
+    handleInputChange = event => {
+        const { name, value } = event.target;
+        this.setState({
+            [name]: value
+        });
+    };
     
+    //Render to the page
     render() {
+
+        console.log("DishSearch this.state:", this.state)
         return (
             <div className="content-area">
                 <div className="container">
                     <div className="jumbotron">
                         <h2>Dish Search Page</h2>
-                        <Searchbar />
+                        <form className="form-inline">
+                            <input 
+                                name="searchTerm"
+                                value={this.state.searchTerm}
+                                onChange={this.handleInputChange}
+                                type="text" 
+                                className="form-control mb-2 mr-sm-2" 
+                                id="inlineFormInputName2" 
+                                placeholder="Search for a dish..."
+                            />
+                            <button type="submit" className="btn btn-primary mb-2">Search</button>
+                        </form>
+                        
                         <div className ="jumobotron">
                             {this.state.dishes.length ? (
                             <div className="row">
@@ -43,7 +70,7 @@ class DishSearch extends Component {
                                 ))}
                             </div>
                             ) : (
-                            <h3>Loading Results...</h3>
+                            <h3>Loading Dishes...</h3>
                         )}                
                         </div>
                     </div>
@@ -53,7 +80,5 @@ class DishSearch extends Component {
         );
     };
 };
-
-
     
 export default DishSearch;

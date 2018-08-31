@@ -6,8 +6,9 @@ mongoose.promise = Promise
 const userSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
-  City: String,
-  State: String
+  account_type: { type: String, required: true, default: 'basic' },
+  city: String,
+  state: String
 });
 
 // Define schema methods

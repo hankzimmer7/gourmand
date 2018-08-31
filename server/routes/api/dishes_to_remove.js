@@ -15,7 +15,7 @@ router
   .put(dishesController.update)
   .delete(dishesController.remove);
 
-  // Matches with "/api/dishes/:dishId/reviews"
+// Matches with "/api/dishes/:dishId/reviews"
 router.route("/:dishId/reviews")
 .get(reviewsController.findByDishId)
 
