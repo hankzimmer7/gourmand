@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const routes = require("./routes");
 const app = express();
-const morgan = require('morgan');
+// const morgan = require('morgan');
 const session = require('express-session');
 const dbConnection = require('./database') 
 const MongoStore = require('connect-mongo')(session)
@@ -10,7 +10,7 @@ const passport = require('./passport');
 const PORT = process.env.PORT || 3001;
 
 // Define middleware here
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -36,7 +36,7 @@ app.use(passport.session()) // calls serializeUser and deserializeUser
 
 // Displays the session info
 app.use( (req, res, next) => {
-  console.log('req.session:\n\n', req.session, '\n');
+  // console.log('req.session:\n\n', req.session, '\n');
   return next();
 });
 

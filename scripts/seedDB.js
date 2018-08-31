@@ -50,14 +50,6 @@ const userSeed = [{
     "city": "Atlanta",
     "state": "GA"
   }
-  // {
-  //   "username": "Cloud",
-  //   "password": "buster"
-  // },
-  // {
-  //   "username": "Tifa",
-  //   "password": "gloves"
-  // }
 ];
 
 let dishSeedingDone = false;

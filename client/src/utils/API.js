@@ -18,4 +18,9 @@ export default {
     getDish: function (id) {
         return axios.get(`/api/dishes/${id}`);
     },
+
+    // Get the reviews with the given dish id
+    getDishReviews: function (dishId) {
+        return axios.get(`/api/dishes/${dishId}/reviews`);
+    },
 };

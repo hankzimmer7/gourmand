@@ -18,13 +18,13 @@ router
 router.post(
     '/login',
     function (req, res, next) {
-        console.log("Hit the route /api/user/login. Req.body:")
-        console.log(req.body)
+        // console.log("Hit the route /api/user/login. Req.body:")
+        // console.log(req.body)
         next()
     },
     passport.authenticate('local'),
     (req, res) => {
-        console.log('Autheniticated via passport. Req.user:', req.user);
+        // console.log('Autheniticated via passport. Req.user:', req.user);
         var userInfo = {
             username: req.user.username,
             _id: req.user._id
@@ -35,8 +35,8 @@ router.post(
 
 //This route is used to get the basic user info
 router.get('/', (req, res, next) => {
-    console.log("Hit the api/users routes. Req.user:")
-    console.log(req.user)
+    // console.log("Hit the api/users routes. Req.user:")
+    // console.log(req.user)
     if (req.user) {
         res.json({
             user: req.user
@@ -49,7 +49,7 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/logout', (req, res) => {
-    console.log("Hit the api/users/logout route. Req.user:")
+    // console.log("Hit the api/users/logout route. Req.user:")
     if (req.user) {
         req.logout()
         res.send({
