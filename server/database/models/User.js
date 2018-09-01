@@ -7,6 +7,8 @@ const userSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
   account_type: { type: String, required: true, default: 'basic' },
+  first_name:  String,
+  last_name: String,
   city: String,
   state: String
 });
@@ -21,7 +23,6 @@ userSchema.methods = {
   }
 }
 
-//This is commented out until I need to hash the password
 // Define pre-hooks for the save method
 userSchema.pre('save', function (next) {
   if (!this.password) {

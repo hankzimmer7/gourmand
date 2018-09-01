@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 import API from "../../utils/API";
 import moment from 'moment';
 
@@ -9,7 +10,8 @@ class Restaurant extends Component {
         restaurantLoaded: false,
         dishesLoaded: false,
         newDishName: '',
-        newDishDescription: ''
+        newDishDescription: '',
+        redirectTo: null
     };
 
     componentDidMount() {
@@ -64,7 +66,7 @@ class Restaurant extends Component {
         const newDish = {
             name: this.state.newDishName,
             description: this.state.newDishDescription,
-            restaurant_id: this.state.restaurant._id,
+            restaurant: this.state.restaurant._id,
             added_by: this.props.user._id,
             date_added: moment(new Date()).toISOString()
         }
@@ -82,26 +84,52 @@ class Restaurant extends Component {
                 console.log(error);                
             })
     }
+
+    //When the user clicks the "Delete Restaurant" button, delete the restaurant and all associated dishes & reviews
+    handleDeleteRestaurant = id => {
+        console.log("Clicked delete restaurant for restaurant Id: ", id)
+        API.deleteRestaurant(id)
+            .then(response => {
+                console.log("Delete restaurant response: ", response);
+                this.setState({
+                    redirectTo: `/restaurant_search`
+                });
+                console.log("set state to redirect to restaurant search")
+            }).catch(error => {
+                console.log('Error deleting restaurant: ')
+                console.log(error);   
+            })
+    }
     
     render() {
-        const currentDate = new Date();
+        // const currentDate = new Date();
 
-        console.log("Current date:", currentDate);
-        console.log("Current date in ISO:", moment(currentDate).toISOString());
+        // console.log("Current date:", currentDate);
+        // console.log("Current date in ISO:", moment(currentDate).toISOString());
 
-        // console.log("Restaurant.js this.state", this.state);
-        return (
-            <div className="content-area">
-                <div className="container">
-                    <div className="jumbotron">
-                        <h2>Restaurant Page</h2>
-                        {this.state.restaurantLoaded ? (
-                            <div>
+        console.log("Restaurant.js this.state", this.state);
+        
+        if (this.state.redirectTo) {
+            return <Redirect to={{ pathname: this.state.redirectTo }} />
+        } else {
+            return (
+                <div className="content-area">
+                    <div className="container">
+                        <div className="jumbotron">
+                            <h2>Restaurant Page</h2>
+                            {this.state.restaurantLoaded ? (
                                 <div>
-                                    <div>Restaurant Name: {this.state.restaurant.name}</div>
-                                    <div>Description: {this.state.restaurant.description}</div>
-                                </div>
-                                <div className ="jumobotron">
+                                    <div>
+                                        <div>Restaurant Name: {this.state.restaurant.name}</div>
+                                        <div>Description: {this.state.restaurant.description}</div>
+                                        {this.state.restaurant.address && <div>Address: {this.state.restaurant.address}</div>}
+                                    </div>
+                                    <button 
+                                        className="btn btn-primary"
+                                        onClick={() => this.handleDeleteRestaurant(this.state.restaurant._id)}
+                                    >
+                                        Delete Restaurant
+                                    </button> 
                                     <h4>Add a new dish:</h4>
                                     <form className="form-group">
                                         <label htmlFor="addDishName">Name:</label>
@@ -121,7 +149,7 @@ class Restaurant extends Component {
                                             value={this.state.newDishDescription}
                                             onChange={this.handleInputChange}
                                             className="form-control" 
-                                            id="exampleFormControlTextarea1" 
+                                            id="dishDescriptionInput" 
                                             rows="3"
                                             >
                                         </textarea>
@@ -133,30 +161,30 @@ class Restaurant extends Component {
                                         Add New Dish
                                     </button>
                                 </div>
-                            </div>
-                        ) : (
-                            <h3>Loading Restaurant...</h3>
-                        )}
-                        {this.state.dishesLoaded ? (
-                            <div className="row">
-                                {this.state.dishes.map(dish => (
-                                <div className="col-12" key={dish._id}>
-                                    <div className="card mb-1">
-                                        <div className="card-body">
-                                            <h2 className="card-title"><a href={`/restaurants/${dish.restaurant_id}/dishes/${dish._id}`}>{dish.name}</a></h2>
-                                            <p className="card-text">{dish.description}</p>
+                            ) : (
+                                <h3>Loading Restaurant...</h3>
+                            )}
+                            {this.state.dishesLoaded ? (
+                                <div className="row">
+                                    {this.state.dishes.map(dish => (
+                                    <div className="col-12" key={dish._id}>
+                                        <div className="card mb-1">
+                                            <div className="card-body">
+                                                <h2 className="card-title"><a href={`/restaurants/${dish.restaurant}/dishes/${dish._id}`}>{dish.name}</a></h2>
+                                                <p className="card-text">{dish.description}</p>
+                                            </div>
                                         </div>
                                     </div>
+                                    ))}
                                 </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <h3>Loading Dishes...</h3>
-                        )}                    
+                            ) : (
+                                <h3>Loading Dishes...</h3>
+                            )}                    
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
     };
 };
     

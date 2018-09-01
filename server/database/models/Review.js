@@ -2,10 +2,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ReviewSchema = new Schema({
-  dish_id: { type: String, required: true },
-  author_id: { type: String, required: true },
+  dish: { type: Schema.Types.ObjectId, ref: 'Dish' },
+  restaurant: { type: Schema.Types.ObjectId, ref: 'Restaurant' },
+  author: { type: Schema.Types.ObjectId, ref: 'User' },
   rating: Number,
-  body: { type: String, required: true },
+  body: String,
   date: Date
 });
 

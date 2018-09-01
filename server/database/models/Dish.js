@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const dishSchema = new Schema({
   name: { type: String, required: true },
   description: String,
-  restaurant_id: String,
-  added_by: String,
+  restaurant: { type: Schema.Types.ObjectId, ref: 'Restaurant' },
+  added_by: { type: Schema.Types.ObjectId, ref: 'User' },
   date_added: Date
 });
 

@@ -12,6 +12,14 @@ export default {
     getRestaurant: function (id) {
         return axios.get(`/api/restaurants/${id}`);
     },
+    //Add a new restaurant
+    addRestaurant: function (newRestaurant) {
+        return axios.post(`/api/restaurants/`, newRestaurant);
+    },
+    //Delete a restaurant as well as all associated dishes and reviews
+    deleteRestaurant: function (restaurantId) {
+        return axios.delete(`/api/restaurants/${restaurantId}`, restaurantId);
+    },
 
     //---------------Dish Routes---------------
 
@@ -31,7 +39,7 @@ export default {
     addDish: function (newDish) {
         return axios.post(`/api/dishes/`, newDish);
     },
-    //Add a new dish
+    //Delete a dish as well as all associated reviews
     deleteDish: function (dishId) {
         return axios.delete(`/api/dishes/${dishId}`, dishId);
     },

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import './App.css';
 import Navbar from './components/Navbar';
 import Loader from './components/Loader';
-import Landing from './pages/Landing';
+// import Landing from './pages/Landing';
 import SignIn from './pages/SignIn';
 import CreateAccount from './pages/CreateAccount';
 import DishSearch from './pages/DishSearch';
@@ -16,7 +16,7 @@ import Profile from './pages/Profile';
 class App extends Component {
 
 	state = {
-		loggedIn: false,
+		loggedIn: null,
 		user: null,
 		userCheckDone: false
 	}
@@ -92,43 +92,61 @@ class App extends Component {
 		// console.log(this.state);
 
     return (
-      <div>
-				{this.state.userCheckDone ? (
-					<div>
-						<Navbar 
-							user={this.state.user}
-							logout={this.logout}
-							loggedIn={this.state.loggedIn}
-						/>
-						<Router>
-							<div>
-								<Switch>
-									<Route exact path="/" component={Landing} />
-									<Route exact path="/sign_in" render={() => <SignIn updateUser={this.updateUser} />} />
-									<Route exact path="/create_account" render={() => <CreateAccount updateUser={this.updateUser} />} />
-									<Route exact path="/dish_search" component={DishSearch} />
-									<Route exact path="/restaurant_search" component={RestaurantSearch} />
-									<Route 
-										exact path="/restaurants/:restaurant" 
-										render={(routeProps) => <Restaurant {...routeProps} 
-										user={this.state.user} 
-										loggedIn={this.state.loggedIn}/>} 
-									/>
-									<Route 
-										exact path="/restaurants/:restaurant/dishes/:dish" 
-										render={(routeProps) => <Dish {...routeProps} 
-										user={this.state.user} 
-										loggedIn={this.state.loggedIn} 
-										userCheckDone={this.state.userCheckDone}/>} 
-									/>
-									<Route exact path="/profile" render={() => <Profile user={this.state.user} loggedIn={this.state.loggedIn}/>} /> 
-								</Switch>
-							</div>
-						</Router>
-					</div>
-				) : (
-					<Loader />
-				)}
+		<div>
+			{this.state.userCheckDone ? (
+				<div>
+					<Navbar 
+						user={this.state.user}
+						logout={this.logout}
+						loggedIn={this.state.loggedIn}
+					/>
+					<Router>
+						<div>
+							<Switch>
+								<Route exact path="/dish_search" component={DishSearch} />
+								<Route 
+									exact path="/restaurant_search"
+									render={(routeProps) => <RestaurantSearch {...routeProps} 
+									user={this.state.user}/>} 
+								/>
+								<Route 
+									exact path="/restaurants/:restaurant" 
+									render={(routeProps) => <Restaurant {...routeProps} 
+									user={this.state.user} 
+									loggedIn={this.state.loggedIn}/>} 
+								/>
+								<Route 
+									exact path="/restaurants/:restaurant/dishes/:dish" 
+									render={(routeProps) => <Dish {...routeProps} 
+									user={this.state.user} 
+									loggedIn={this.state.loggedIn}/>} 
+								/>
+								{this.state.loggedIn ? (
+									<div>
+										{/* <Redirect from="/sign_in" to="dish_search" /> */}
+										{/* <Redirect from="/create_account" to="dish_search" /> */}
+										<Route 
+											exact path="/profile" 
+											render={() => <Profile 
+											user={this.state.user} 
+											// loggedIn={this.state.loggedIn}
+											/>} 
+										/>
+									</div>
+								) : (
+									<div>
+										{/* <Redirect from="/profile" to="/sign_in" /> */}
+										<Route exact path="/sign_in" render={() => <SignIn updateUser={this.updateUser} />} />
+										<Route exact path="/create_account" render={() => <CreateAccount updateUser={this.updateUser} />} />
+									</div>
+								)}
+							</Switch>
+						</div>
+					</Router>
+				</div>
+			) : (
+				<Loader />
+			)}
       </div>
     );
   }

@@ -16,9 +16,10 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   findByDishId: function(req, res) {
-      console.log('hit reviews controller.js find dish by id. req.params: ', req.params);
+      // console.log('hit reviews controller.js find dish by id. req.params: ', req.params);
     db.Review
-      .find({dish_id: req.params.dishId})
+      .find({dish: req.params.dishId})
+      .populate('author')
       .sort({ date: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
@@ -35,8 +36,8 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  remove: function(req, res) {
-    console.log("Hit reviews controller remove function. req.params: ", req.params);
+  delete: function(req, res) {
+    // console.log("Hit reviews controller remove function. req.params: ", req.params);
     db.Review
       .deleteOne({ _id: req.params.id })
       .then(dbModel => res.json(dbModel))

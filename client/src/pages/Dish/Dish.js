@@ -2,15 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import API from "../../utils/API";
 import moment from 'moment';
-// import { PulseLoader } from 'react-spinners';
 import Loader from '../../components/Loader';
-// import { css } from 'react-emotion';
-
-// const override = css`
-//     display: block;
-//     margin: 0 auto;
-//     border-color: red;
-// `;
 
 class Dish extends Component {
     state = {
@@ -49,7 +41,7 @@ class Dish extends Component {
         const dishId = this.props.match.params.dish
         API.getDishReviews(dishId)
             .then(response => {
-                // console.log("Dish.js loadReview api result", response);
+                console.log("Dish.js loadReview api result", response);
                 this.setState({ 
                     reviews: response.data,
                     reviewsLoaded: true
@@ -71,13 +63,14 @@ class Dish extends Component {
     handleReviewSubmit = event => {
         event.preventDefault();
         const newReview = {
-            author_id: this.props.user._id,
-            dish_id: this.state.dish._id,
+            author: this.props.user._id,
+            dish: this.state.dish._id,
+            restaurant: this.props.match.params.restaurant,
             rating: this.state.reviewRating.slice(0,1),
             body: this.state.reviewBody,
             date: this.state.dateVisited
         }
-        // console.log("new review: ", newReview);
+        console.log("new review: ", newReview);
         API.addReview(newReview)
             .then(response => {
                 console.log("addreview repsonse: ", response);
@@ -100,7 +93,7 @@ class Dish extends Component {
             .then(response => {
                 console.log("Delete dish response: ", response);
                 this.setState({
-                    redirectTo: `/restaurants/${this.state.dish.restaurant_id}`
+                    redirectTo: `/restaurants/${this.state.dish.restaurant}`
                 });
                 console.log("set state to redirect to restaurant")
             }).catch(error => {
@@ -125,9 +118,6 @@ class Dish extends Component {
 
         console.log("Dish.js this.state",this.state);
         // console.log("Dish.js this.props", this.props);
-        // console.log("Dish.js this", this);
-        // console.log("This.props.userCheckDone", this.props.userCheckDone);
-
 
         if (this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
@@ -139,79 +129,87 @@ class Dish extends Component {
                             <h2>Dish Page</h2>
                             {this.state.dishLoaded ? (
                                 <div>
-                                    <div>Restaurant ID: {this.state.dish.restaurant_id}</div>
-                                    <div>Dish Name: {this.state.dish.name}</div>
-                                    <div>Description: {this.state.dish.description}</div>
-                                    <button 
-                                        className="btn btn-primary"
-                                        onClick={() => this.handleDeleteDish(this.state.dish._id)}
-                                    >
-                                        Delete Dish
-                                    </button>   
+                                    <div>
+                                        <div>Restaurant ID: {this.state.dish.restaurant}</div>
+                                        <div>Dish Name: {this.state.dish.name}</div>
+                                        <div>Description: {this.state.dish.description}</div>
+                                        <button 
+                                            className="btn btn-primary"
+                                            onClick={() => this.handleDeleteDish(this.state.dish._id)}
+                                        >
+                                            Delete Dish
+                                        </button>   
+                                    </div>
+                                    <h3>Reviews</h3>
+                                    <form className="mb-2">
+                                        <h4>Add your own review:</h4>
+                                        <div className="form-group row">
+                                            <label htmlFor="FormControlSelect1" className="col-lg-3 col-md-4 col-form-label">Select your rating:</label>
+                                            <div className="col-lg-4 col-md-4">
+                                                <select
+                                                    name="reviewRating"
+                                                    className="form-control" 
+                                                    id="exampleFormControlSelect1"
+                                                    value={this.state.reviewRating}
+                                                    onChange={this.handleInputChange}
+                                                >
+                                                    <option>1 (terrible)</option>
+                                                    <option>2 (bad)</option>
+                                                    <option>3 (average)</option>
+                                                    <option>4 (good)</option>
+                                                    <option>5 (amazing)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="form-group">
+                                            <textarea
+                                                name="reviewBody"
+                                                className="form-control" 
+                                                id="exampleFormControlTextarea1" 
+                                                rows="3" 
+                                                placeholder="Enter your review here"
+                                                value={this.state.reviewBody}
+                                                onChange={this.handleInputChange}
+                                            >
+                                            </textarea>
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="dateVisitedInput">Date Visited</label>
+                                            <input 
+                                                name="dateVisited"
+                                                type="date" 
+                                                className="form-control" 
+                                                id="dateVisitedInput"
+                                                value={this.state.dateVisited}
+                                                onChange={this.handleInputChange}
+                                            />
+                                        </div>
+                                        <button 
+                                            type="submit" 
+                                            className="btn btn-primary btn-lg"
+                                            onClick={this.handleReviewSubmit}
+                                        >
+                                            Submit My Review
+                                        </button>
+                                    </form>
                                 </div>
                             ) : (
                                 <Loader />
                             )}
-                            <h3>Reviews</h3>
-                            <form className="mb-2">
-                                <h4>Add your own review:</h4>
-                                <div className="form-group row">
-                                    <label htmlFor="FormControlSelect1" className="col-lg-3 col-md-4 col-form-label">Select your rating:</label>
-                                    <div className="col-lg-4 col-md-4">
-                                        <select
-                                            name="reviewRating"
-                                            className="form-control" 
-                                            id="exampleFormControlSelect1"
-                                            value={this.state.reviewRating}
-                                            onChange={this.handleInputChange}
-                                        >
-                                            <option>1 (terrible)</option>
-                                            <option>2 (bad)</option>
-                                            <option>3 (average)</option>
-                                            <option>4 (good)</option>
-                                            <option>5 (amazing)</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <textarea
-                                        name="reviewBody"
-                                        className="form-control" 
-                                        id="exampleFormControlTextarea1" 
-                                        rows="3" 
-                                        placeholder="Enter your review here"
-                                        value={this.state.reviewBody}
-                                        onChange={this.handleInputChange}
-                                    >
-                                    </textarea>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="dateVisitedInput">Date Visited</label>
-                                    <input 
-                                        name="dateVisited"
-                                        type="date" 
-                                        className="form-control" 
-                                        id="dateVisitedInput"
-                                        value={this.state.dateVisited}
-                                        onChange={this.handleInputChange}
-                                    />
-                                </div>
-                                <button 
-                                    type="submit" 
-                                    className="btn btn-primary btn-lg"
-                                    onClick={this.handleReviewSubmit}
-                                >
-                                    Submit My Review
-                                </button>
-                            </form>
                             {this.state.reviewsLoaded ? (
                                 <div className="row">
                                     {this.state.reviews.map(review => (
                                     <div className="col-12" key={review._id}>
                                         <div className="card mb-1">
                                             <div className="card-body">
-                                                <h2 className="card-title">{review.rating} Stars</h2>
-                                                <p className="card-text">{moment(review.date).format('MMMM Do, YYYY')}</p>
+                                                {review.author ? (
+                                                <h5 className="card-title">{review.author.username}</h5>
+                                                ) : (
+                                                    <h5 className="card-title"> Deactivated User </h5>
+                                                )}
+                                                <p className="card-text">{review.rating}/5 Stars 
+                                                    <span className="text-muted"> {moment(review.date).format('MMMM Do, YYYY')}</span>
+                                                </p>
                                                 <p className="card-text">{review.body}</p>
                                                 <button 
                                                     className="btn btn-primary"

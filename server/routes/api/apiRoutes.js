@@ -13,7 +13,7 @@ router
   .route("/restaurants/:id")
   .get(restaurantsController.findById)
   .put(restaurantsController.update)
-  .delete(restaurantsController.remove);
+  .delete(restaurantsController.delete);
 
 // Matches with "/api/restaurants/:id/dishes"
 router
@@ -47,7 +47,7 @@ router
   .route("/reviews/:id")
   .get(reviewsController.findById)
   .put(reviewsController.update)
-  .delete(reviewsController.remove);
+  .delete(reviewsController.delete);
 
 
 module.exports = router;

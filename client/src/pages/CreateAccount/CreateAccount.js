@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom'
 import axios from 'axios';
 
 class CreateAccount extends Component {
@@ -10,7 +10,7 @@ class CreateAccount extends Component {
         confirmPassword: '',
         usernameMessage: 'Please choose a unique username',
         validUsername: false,
-        redirectTo: null 
+        // redirectTo: null 
     }
 
     handleInputChange = event => {
@@ -41,35 +41,35 @@ class CreateAccount extends Component {
     handleFormSubmit = event => {
         event.preventDefault();
         //Check if there is already a user with that username
-        console.log("CreateAccount.js sending a get request to /api/users");
+        // console.log("CreateAccount.js sending a get request to /api/users");
         axios.get(`/api/users/${this.state.username}`)
         .then(response => {
             if(response.data) {
-                console.log("There is already a user by that name");
+                // console.log("There is already a user by that name");
            } else {
-               console.log("There is no user by that name");
-               console.log('CreateAccount.js is about to post to /api/users')
+            //    console.log("There is no user by that name");
+            //    console.log('CreateAccount.js is about to post to /api/users')
                axios.post('/api/users/', {
                    username: this.state.username,
                    password: this.state.password
                })
                    .then(response => {
                        if (response.data) {
-                           console.log('response from post request to /api/users', response);
-                           this.setState({
-                               redirectTo: '/profile'
-                           })
+                        //    console.log('response from post request to /api/users', response);
+                        //    this.setState({
+                        //        redirectTo: '/profile'
+                        //    })
 
                            //Login to the newly created account
-                           console.log('CreateAccount.js is about to post to /api/users/login');
+                        //    console.log('CreateAccount.js is about to post to /api/users/login');
                            axios
                                .post('/api/users/login', {
                                    username: this.state.username,
                                    password: this.state.password
                                })
                                .then(response => {
-                                   console.log('CreateAccount.js got the following response after posting to api/users/login: ', response);
-                                   console.log('response.data is:', response.data);
+                                //    console.log('CreateAccount.js got the following response after posting to api/users/login: ', response);
+                                //    console.log('response.data is:', response.data);
                                    if (response.status === 200) {
                                        // update App.js state
                                        this.props.updateUser({
@@ -95,12 +95,14 @@ class CreateAccount extends Component {
 
     render() {
 
-        if (this.state.redirectTo) {
-            return <Redirect to={{ pathname: this.state.redirectTo }} />
-        } else {
+        // console.log("CreateAccount.js this.state:", this.state);
+
+        // if (this.state.redirectTo) {
+        //     return <Redirect to={{ pathname: this.state.redirectTo }} />
+        // } else {
             return (
                 <div className="content-area">
-                    <div className="container">
+                    <div className="container create-account-container">
                         <div className="jumbotron">
                             <h2>Create an Account</h2>
                             <form action="/login" method="post">
@@ -143,7 +145,7 @@ class CreateAccount extends Component {
                     </div>    
                 </div>
             )
-        }
+        // }
     };
 };
 
