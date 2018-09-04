@@ -15,7 +15,7 @@ class Profile extends Component {
         redirectTo: null
     };
 
-    componentDidMount () {
+    componentDidMount = () => {
         console.log("Profile.js this.props: ", this.props)
         if (this.props.loggedIn) {
             this.loadUser();

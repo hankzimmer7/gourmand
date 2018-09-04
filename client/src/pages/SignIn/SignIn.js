@@ -5,8 +5,9 @@ import axios from 'axios';
 class SignIn extends Component {
 
     state = {
-        username: "",
-        password: "",
+        username: '',
+        password: '',
+        message: '',
         redirectTo: null     
     }
 
@@ -26,8 +27,23 @@ class SignIn extends Component {
         });
     };
 
+    //When the user clicks the "Sign In" button
     handleFormSubmit = event => {
         event.preventDefault();
+
+        if (!this.state.username) {
+            return (
+                this.setState({
+                    message: 'Please enter your username'
+            }))
+        }
+        if (!this.state.password) {
+            return (
+                this.setState({
+                    message: 'Please enter your password'
+            }))
+        }
+
         axios
             .post('/api/users/login', {
                 username: this.state.username,
@@ -42,12 +58,15 @@ class SignIn extends Component {
                     })
                     // update the state to redirect to dish search
                     this.setState({
-                        redirectTo: '/profile'
+                        redirectTo: '/dishes_search'
                     })
                 }
             }).catch(error => {
-                console.log('login error: ')
-                console.log(error);                
+                console.log('login error: ', error);
+                // Display to the user that there was a login error
+                this.setState({
+                    message: 'Incorrect username or password'
+                });              
             })
     }
 
@@ -60,7 +79,8 @@ class SignIn extends Component {
                     <div className="container sign-in-container">
                         <div className="jumbotron">
                             <h2>Sign In</h2>
-                            <form action="/login" method="post">
+                            <p className="text-danger">{this.state.message}</p>
+                            <form>
                                 <div className="form-group">
                                     <label htmlFor="username">Username:</label>
                                     <input 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import './App.css';
 import Navbar from './components/Navbar';
 import Loader from './components/Loader';
@@ -145,7 +145,13 @@ class App extends Component {
 									user={this.state.user}
 									loggedIn={this.state.loggedIn} />} 
 								/>
-								<Route exact path="/create_account" render={() => <CreateAccount updateUser={this.updateUser} />} />
+								<Route 
+									exact path="/create_account" 
+									render={() => <CreateAccount 
+									updateUser={this.updateUser} 
+									user={this.state.user}
+									loggedIn={this.state.loggedIn} />} 
+								/>
 								<Route exact path="/dish_search" component={DishSearch} />
 								<Route 
 									exact path="/restaurant_search"
@@ -173,16 +179,7 @@ class App extends Component {
 									loggedIn={this.state.loggedIn}
 									/>} 
 								/>
-								{/* {(this.state.loggedIn) ? (
-									<React.Fragment>
-										<Redirect from="/sign_in" to="/dish_search" />
-										<Redirect from="/create_account" to="/dish_search" /> }
-									</React.Fragment>
-								) : (
-									<React.Fragment>
-										<Redirect from="/profile" to="/sign_in" />
-									</React.Fragment>
-								)} */}
+							    <Redirect from="/:unknown" to="/sign_in" />
 							</Switch>
 						</div>
 					</Router>

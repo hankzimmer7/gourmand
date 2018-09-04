@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import axios from 'axios';
 
 class CreateAccount extends Component {
@@ -9,8 +9,19 @@ class CreateAccount extends Component {
         password: '',
         confirmPassword: '',
         usernameMessage: 'Please choose a unique username',
+        usernameMessageStyle: 'form-text',
+        errorMessage: '',
         validUsername: false,
-        // redirectTo: null 
+        redirectTo: null 
+    }
+
+    componentDidMount = () => {
+        console.log("CreateAccount.js this.props: ", this.props)
+        if (this.props.loggedIn) {
+            this.setState({
+                redirectTo: '/dish_search'
+            })
+        }
     }
 
     handleInputChange = event => {
@@ -19,49 +30,87 @@ class CreateAccount extends Component {
         this.setState({
           [name]: value
         }, () => {
-            //Check if the username is already taken and update state appropriately
-            axios.get(`/api/users/${this.state.username}`)
-            .then(response => {
-                if(response.data) {
-                    this.setState({
-                        usernameMessage: 'Username already taken',
-                        validUsername: false
-                    })
-               } else {
-                   this.setState({
-                       usernameMessage: "Username available",
-                       validUsername: true
-                    })
-               }
-            })
+            
+            if(this.state.username) {
+
+                //Check if the username is already taken and update state appropriately
+                axios.get(`/api/users/${this.state.username}`)
+                .then(response => {
+                    if(response.data) {
+                        this.setState({
+                            usernameMessage: 'Username already taken',
+                            usernameMessageStyle: 'form-text text-warning',
+                            validUsername: false
+                        })
+                   } else {
+                       this.setState({
+                           usernameMessage: "Username available",
+                           usernameMessageStyle: 'form-text text-success',
+                           validUsername: true
+                        })
+                   }
+                })
+            } else {
+                this.setState({
+                    usernameMessage: "Please enter a unique username",
+                    usernameMessageStyle: 'form-text',
+                    validUsername: true
+                 })
+            }            
         });
     };
 
     //When the user clicks the "Create an Account" button
     handleFormSubmit = event => {
         event.preventDefault();
+
+        if (!this.state.username) {
+            return (
+                this.setState({
+                    errorMessage: 'Please enter a username'
+            }))
+        } else
+        if (!this.state.password) {
+            return (
+                this.setState({
+                    errorMessage: 'Please enter a password'
+            }))
+        } else
+        if (!this.state.confirmPassword) {
+            return (
+                this.setState({
+                    errorMessage: 'Please confirm your password'
+            }))
+        } else
+        if (this.state.password !== this.state.confirmPassword) {
+            return (
+                this.setState({
+                    errorMessage: 'The passwords entered do not match',
+                    password: '',
+                    confirmPassword: ''
+            }))
+        }
+
         //Check if there is already a user with that username
-        // console.log("CreateAccount.js sending a get request to /api/users");
         axios.get(`/api/users/${this.state.username}`)
         .then(response => {
+            //If the username is already taken
             if(response.data) {
-                // console.log("There is already a user by that name");
+                // Should never reach this, but just in case, return an error
+                return (
+                    this.setState({
+                        errorMessage: 'That username is already taken',
+                        username: ''
+                }))
            } else {
-            //    console.log("There is no user by that name");
-            //    console.log('CreateAccount.js is about to post to /api/users')
                axios.post('/api/users/', {
                    username: this.state.username,
                    password: this.state.password
                })
                    .then(response => {
                        if (response.data) {
-                        //    console.log('response from post request to /api/users', response);
-                        //    this.setState({
-                        //        redirectTo: '/profile'
-                        //    })
 
                            //Login to the newly created account
-                        //    console.log('CreateAccount.js is about to post to /api/users/login');
                            axios
                                .post('/api/users/login', {
                                    username: this.state.username,
@@ -76,18 +125,17 @@ class CreateAccount extends Component {
                                            loggedIn: true,
                                            user: response.data
                                        })
+                                       window.location.reload();
                                    }
                                }).catch(error => {
-                                   console.log('login error: ')
-                                   console.log(error);                
+                                   console.log('login error: ', error)            
                                })
 
                        } else {
                            console.log('Sign-up error');
                        }
                    }).catch(error => {
-                       console.log('Sign up server error: ');
-                       console.log(error);
+                       console.log('Sign up server error: ', error);
                    })
            };
         });
@@ -97,17 +145,24 @@ class CreateAccount extends Component {
 
         // console.log("CreateAccount.js this.state:", this.state);
 
-        // if (this.state.redirectTo) {
-        //     return <Redirect to={{ pathname: this.state.redirectTo }} />
-        // } else {
+        if (this.state.redirectTo) {
+            return <Redirect to={{ pathname: this.state.redirectTo }} />
+        } else {
             return (
                 <div className="content-area">
                     <div className="container create-account-container">
                         <div className="jumbotron">
                             <h2>Create an Account</h2>
-                            <form action="/login" method="post">
+                            <p className="text-danger">{this.state.errorMessage}</p>
+                            <form>
                                 <div className="form-group">
                                     <label htmlFor="username">Username:</label>
+                                    <small 
+                                        id="usernameHelp" 
+                                        // className='form-text' 
+                                        className={this.state.usernameMessageStyle}>       
+                                            {this.state.usernameMessage}
+                                    </small>
                                     <input 
                                         type="text" 
                                         className="form-control" 
@@ -116,7 +171,6 @@ class CreateAccount extends Component {
                                         value={this.state.username}
                                         onChange={this.handleInputChange}
                                     />
-                                    <small id="usernameHelp" className="form-text">{this.state.usernameMessage}</small>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="password">Password:</label>
@@ -126,6 +180,17 @@ class CreateAccount extends Component {
                                         name="password" 
                                         placeholder="Password"
                                         value={this.state.password}
+                                        onChange={this.handleInputChange}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="passwordConfirm">Confirm Password:</label>
+                                    <input 
+                                        type="password" 
+                                        className="form-control" 
+                                        name="confirmPassword" 
+                                        placeholder="Confirm Password"
+                                        value={this.state.confirmPassword}
                                         onChange={this.handleInputChange}
                                     />
                                 </div>
@@ -145,7 +210,7 @@ class CreateAccount extends Component {
                     </div>    
                 </div>
             )
-        // }
+        }
     };
 };
 
