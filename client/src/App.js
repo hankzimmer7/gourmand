@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import './App.css';
 import Navbar from './components/Navbar';
 import Loader from './components/Loader';
-// import Landing from './pages/Landing';
 import SignIn from './pages/SignIn';
 import CreateAccount from './pages/CreateAccount';
 import DishSearch from './pages/DishSearch';
@@ -22,6 +21,10 @@ class App extends Component {
 	}
 
   componentDidMount = () => {
+ 	this.checkUser();
+  }
+
+  checkUser = () => {
 		// console.log("Querying axios.get('/api/users/current')")
 		axios.get('/api/users').then(response => {
 			if (response.data.user) {
@@ -66,7 +69,8 @@ class App extends Component {
 					// update the state
 					this.setState({
 						loggedIn: true,
-						user: response.user
+						user: response.user,
+						userCheckDone: false
 					})
 				}
 			})
@@ -80,16 +84,22 @@ class App extends Component {
 			if (response.status === 200) {
 				this.setState({
 					loggedIn: false,
-					user: null
+					user: null,
+					userCheckDone: false
 				})
 			}
+			window.location.reload();
 		})
+	// 	.then( () => {
+	// 		// console.log("Checking user");
+	// 		// this.checkUser();
+	// 		window.location.reload();
+	// 	})
 	}
   
   render() {
 
-		// console.log("App this.state: ");
-		// console.log(this.state);
+		console.log("App this.state: ", this.state);
 
     return (
 		<div>
@@ -103,6 +113,8 @@ class App extends Component {
 					<Router>
 						<div>
 							<Switch>
+								<Route exact path="/sign_in" render={() => <SignIn updateUser={this.updateUser} />} />
+								<Route exact path="/create_account" render={() => <CreateAccount updateUser={this.updateUser} />} />
 								<Route exact path="/dish_search" component={DishSearch} />
 								<Route 
 									exact path="/restaurant_search"
@@ -121,25 +133,23 @@ class App extends Component {
 									user={this.state.user} 
 									loggedIn={this.state.loggedIn}/>} 
 								/>
-								{this.state.loggedIn ? (
-									<div>
-										{/* <Redirect from="/sign_in" to="dish_search" /> */}
-										{/* <Redirect from="/create_account" to="dish_search" /> */}
-										<Route 
-											exact path="/profile" 
-											render={() => <Profile 
-											user={this.state.user} 
-											// loggedIn={this.state.loggedIn}
-											/>} 
-										/>
-									</div>
+								<Route 
+									exact path="/profile" 
+									render={() => <Profile 
+									user={this.state.user} 
+									loggedIn={this.state.loggedIn}
+									/>} 
+								/>
+								{/* {(this.state.loggedIn) ? (
+									<React.Fragment>
+										<Redirect from="/sign_in" to="/dish_search" />
+										<Redirect from="/create_account" to="/dish_search" /> }
+									</React.Fragment>
 								) : (
-									<div>
-										{/* <Redirect from="/profile" to="/sign_in" /> */}
-										<Route exact path="/sign_in" render={() => <SignIn updateUser={this.updateUser} />} />
-										<Route exact path="/create_account" render={() => <CreateAccount updateUser={this.updateUser} />} />
-									</div>
-								)}
+									<React.Fragment>
+										<Redirect from="/profile" to="/sign_in" />
+									</React.Fragment>
+								)} */}
 							</Switch>
 						</div>
 					</Router>

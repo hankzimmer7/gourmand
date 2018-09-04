@@ -24,6 +24,16 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  findByUserId: function(req, res) {
+      // console.log('hit reviews controller.js find reviews by user id. req.params: ', req.params);
+    db.Review
+      .find({author: req.params.userId})
+      .populate('dish')
+      .populate("restaurant")
+      .sort({ date: -1 })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   create: function(req, res) {
     db.Review
       .create(req.body)

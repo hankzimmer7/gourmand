@@ -32,22 +32,25 @@ router
   .put(dishesController.update)
   .delete(dishesController.delete);
 
-// Matches with "/api/dishes/:dishId/reviews"
-router.route("/dishes/:dishId/reviews")
-.get(reviewsController.findByDishId)
-
-
-// Matches with "/api/reviews"
-router.route("/reviews")
+  
+  // Matches with "/api/reviews"
+  router.route("/reviews")
   .get(reviewsController.findAll)
   .post(reviewsController.create);
-
-// Matches with "/api/reviews/:id"
-router
+  
+  // Matches with "/api/reviews/:id"
+  router
   .route("/reviews/:id")
   .get(reviewsController.findById)
   .put(reviewsController.update)
   .delete(reviewsController.delete);
+  
+  // Matches with "/api/dishes/:dishId/reviews"
+  router.route("/dishes/:dishId/reviews")
+  .get(reviewsController.findByDishId)
 
+  // Matches with "/api/users/:userId/reviews"
+  router.route("/users/:userId/reviews")
+  .get(reviewsController.findByUserId)
 
 module.exports = router;

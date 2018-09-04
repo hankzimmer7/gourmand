@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import axios from 'axios';
 
 class SignIn extends Component {
@@ -7,7 +7,7 @@ class SignIn extends Component {
     state = {
         username: "",
         password: "",
-        // redirectTo: null     
+        redirectTo: null     
     }
 
     handleInputChange = event => {
@@ -31,10 +31,10 @@ class SignIn extends Component {
                         loggedIn: true,
                         user: response.data
                     })
-                    // update the state to redirect to home
-                    // this.setState({
-                    //     redirectTo: '/profile'
-                    // })
+                    // update the state to redirect to dish search
+                    this.setState({
+                        redirectTo: '/profile'
+                    })
                 }
             }).catch(error => {
                 console.log('login error: ')
@@ -43,9 +43,9 @@ class SignIn extends Component {
     }
 
     render () {
-        // if (this.state.redirectTo) {
-        //     return <Redirect to={{ pathname: this.state.redirectTo }} />
-        // } else {
+        if (this.state.redirectTo) {
+            return <Redirect to={{ pathname: this.state.redirectTo }} />
+        } else {
             return (
                 <div className="content-area">
                     <div className="container sign-in-container">
@@ -85,7 +85,7 @@ class SignIn extends Component {
                                     <p className="text-center">Don't have an account?</p>
                                     <a 
                                         href="/create_account"
-s                                       className="btn btn-primary btn-block" 
+                                        className="btn btn-primary btn-block" 
                                         value="Create an Account"
                                     >
                                         Create an Account
@@ -95,7 +95,7 @@ s                                       className="btn btn-primary btn-block"
                     </div>
                 </div>
             )
-        // }
+        }
     };
 };
 

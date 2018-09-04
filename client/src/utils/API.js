@@ -51,6 +51,11 @@ export default {
         return axios.get(`/api/dishes/${dishId}/reviews`);
     },
 
+    // Get the reviews with the given user id
+    getUserReviews: function (userId) {
+        return axios.get(`/api/users/${userId}/reviews`);
+    },
+
     //Add a new review
     addReview: function (newReview) {
         return axios.post(`/api/reviews/`, newReview);
