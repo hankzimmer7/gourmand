@@ -5,6 +5,7 @@ module.exports = {
   findAll: function(req, res) {
     db.Dish
       .find(req.query)
+      .populate('restaurant')
       .sort({ name: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
@@ -19,6 +20,13 @@ module.exports = {
   findByRestaurantId: function(req, res) {
     db.Dish
       .find({restaurant: req.params.id})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  findByTerm: function(req, res) {
+    db.Dish
+      .find({name: {"$regex": req.params.term, "$options": "i"}})
+      .populate('restaurant')
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

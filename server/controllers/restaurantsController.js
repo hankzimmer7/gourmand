@@ -15,6 +15,12 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  findByTerm: function(req, res) {
+    db.Restaurant
+      .find({name: {"$regex": req.params.term, "$options": "i"}})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   create: function(req, res) {
     db.Restaurant
       .create(req.body)

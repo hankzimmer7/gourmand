@@ -16,9 +16,14 @@ class Profile extends Component {
     };
 
     componentDidMount () {
-        // console.log("Profile.js this.props: ", this.props)
-        this.loadUser();
-        // this.loadReviews();
+        console.log("Profile.js this.props: ", this.props)
+        if (this.props.loggedIn) {
+            this.loadUser();
+        } else {
+            this.setState({
+                redirectTo: '/sign_in'
+            })
+        }
     }
 
     loadUser = () => {
@@ -52,40 +57,40 @@ class Profile extends Component {
         .catch(err => console.log(err));
     };
 
-    updateUser () {
-        console.log("Updating user");
-        console.log("this.props: ", this.props);
-        if(this.props.user) {
-            console.log("A user is logged in");
+    // updateUser () {
+    //     console.log("Updating user");
+    //     console.log("this.props: ", this.props);
+    //     if(this.props.user) {
+    //         console.log("A user is logged in");
 
-            //Get the user's info and store it in Profile's state
-            axios.get(`/api/users/${this.props.user.username}`)
-                .then(response => {
-                    if(response.data) {
-                        // console.log(`Response from get /api/users/${this.props.user.username}`, response)
-                        this.setState({
-                            user:response.data
-                        });
-                   } else {
-                        console.log(`No response from get /api/users/${this.props.user.username}`)
-                   }
-                }
-            )
-        } else {
-            console.log("No user is logged in");
-            // update the state to redirect to sign in
-            this.setState({
-                redirectTo: '/sign_in'
-            })
-        }
-    }
+    //         //Get the user's info and store it in Profile's state
+    //         axios.get(`/api/users/${this.props.user.username}`)
+    //             .then(response => {
+    //                 if(response.data) {
+    //                     // console.log(`Response from get /api/users/${this.props.user.username}`, response)
+    //                     this.setState({
+    //                         user:response.data
+    //                     });
+    //                } else {
+    //                     console.log(`No response from get /api/users/${this.props.user.username}`)
+    //                }
+    //             }
+    //         )
+    //     } else {
+    //         console.log("No user is logged in");
+    //         // update the state to redirect to sign in
+    //         this.setState({
+    //             redirectTo: '/sign_in'
+    //         })
+    //     }
+    // }
 
-    componentDidUpdate(nextProps) {
-        if(JSON.stringify(this.props.user) !== JSON.stringify(nextProps.user)) // Check if it's a new user, you can also use some unique property, like the ID
-        {
-               this.updateUser();
-        }
-    } 
+    // componentDidUpdate(nextProps) {
+    //     if(JSON.stringify(this.props.user) !== JSON.stringify(nextProps.user)) // Check if it's a new user, you can also use some unique property, like the ID
+    //     {
+    //            this.updateUser();
+    //     }
+    // } 
 
     render() {
 
@@ -102,7 +107,7 @@ class Profile extends Component {
                             {/* <h2>Profile Page</h2> */}
                             {this.state.userLoaded ? (
                                 <div>
-                                <h3>{this.state.user.username}</h3>
+                                <h2>{this.state.user.username}</h2>
                                 {this.state.user.city && <span>{this.state.user.city}, </span>}
                                 {this.state.user.state && <span>{this.state.user.state}</span>}
                                 <h4>My Reviews</h4>

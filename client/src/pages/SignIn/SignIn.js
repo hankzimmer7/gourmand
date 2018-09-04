@@ -10,6 +10,15 @@ class SignIn extends Component {
         redirectTo: null     
     }
 
+    componentDidMount = () => {
+        console.log("SignIn.js this.props: ", this.props)
+        if (this.props.loggedIn) {
+            this.setState({
+                redirectTo: '/dish_search'
+            })
+        }
+    }
+
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({

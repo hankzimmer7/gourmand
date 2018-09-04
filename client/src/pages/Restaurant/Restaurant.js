@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import API from "../../utils/API";
 import moment from 'moment';
+import Loader from '../../components/Loader';
 
 class Restaurant extends Component {
     state = {
@@ -102,12 +103,9 @@ class Restaurant extends Component {
     }
     
     render() {
-        // const currentDate = new Date();
-
-        // console.log("Current date:", currentDate);
-        // console.log("Current date in ISO:", moment(currentDate).toISOString());
 
         console.log("Restaurant.js this.state", this.state);
+        console.log("Restaurant.js this.props", this.props);
         
         if (this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
@@ -116,70 +114,89 @@ class Restaurant extends Component {
                 <div className="content-area">
                     <div className="container">
                         <div className="jumbotron">
-                            <h2>Restaurant Page</h2>
                             {this.state.restaurantLoaded ? (
                                 <div>
                                     <div>
-                                        <div>Restaurant Name: {this.state.restaurant.name}</div>
-                                        <div>Description: {this.state.restaurant.description}</div>
-                                        {this.state.restaurant.address && <div>Address: {this.state.restaurant.address}</div>}
+                                        <h2>{this.state.restaurant.name}</h2>
+                                        {this.state.restaurant.address && (
+                                            <p>
+                                                {this.state.restaurant.address}
+                                            </p>
+                                        )}
+                                        <p>
+                                            {this.state.restaurant.description}
+                                        </p>
                                     </div>
-                                    <button 
-                                        className="btn btn-primary"
-                                        onClick={() => this.handleDeleteRestaurant(this.state.restaurant._id)}
-                                    >
-                                        Delete Restaurant
-                                    </button> 
-                                    <h4>Add a new dish:</h4>
-                                    <form className="form-group">
-                                        <label htmlFor="addDishName">Name:</label>
-                                        <input 
-                                            name="newDishName"
-                                            value={this.state.newDishName}
-                                            onChange={this.handleInputChange}
-                                            type="text" 
-                                            className="form-control" 
-                                            id="dishNameInput" 
-                                            placeholder="Enter the dish name..."/>
-                                    </form>
-                                    <form className="form-group">
-                                        <label htmlFor="addDishDescriptionArea">Description:</label>
-                                        <textarea 
-                                            name="newDishDescription"
-                                            value={this.state.newDishDescription}
-                                            onChange={this.handleInputChange}
-                                            className="form-control" 
-                                            id="dishDescriptionInput" 
-                                            rows="3"
-                                            >
-                                        </textarea>
-                                    </form>
-                                    <button 
-                                        className="btn btn-primary mb-3"
-                                        onClick={this.handleDishSubmit}
-                                        >
-                                        Add New Dish
-                                    </button>
-                                </div>
-                            ) : (
-                                <h3>Loading Restaurant...</h3>
-                            )}
-                            {this.state.dishesLoaded ? (
-                                <div className="row">
-                                    {this.state.dishes.map(dish => (
-                                    <div className="col-12" key={dish._id}>
-                                        <div className="card mb-1">
-                                            <div className="card-body">
-                                                <h2 className="card-title"><a href={`/restaurants/${dish.restaurant}/dishes/${dish._id}`}>{dish.name}</a></h2>
-                                                <p className="card-text">{dish.description}</p>
-                                            </div>
+                                    {this.props.loggedIn && (
+                                        <div>
+                                            {this.props.user.account_type === 'administrator' && (
+                                                <button 
+                                                    className="btn btn-primary mb-3"
+                                                    onClick={() => this.handleDeleteRestaurant(this.state.restaurant._id)}
+                                                >
+                                                    Delete Restaurant
+                                                </button>
+                                            )}
                                         </div>
-                                    </div>
-                                    ))}
+                                    )}
+                                    {this.state.dishesLoaded ? (
+                                        <div className="row">
+                                            {this.state.dishes.map(dish => (
+                                            <div className="col-12" key={dish._id}>
+                                                <div className="card mb-1">
+                                                    <div className="card-body">
+                                                        <h2 className="card-title"><a href={`/restaurants/${dish.restaurant}/dishes/${dish._id}`}>{dish.name}</a></h2>
+                                                        <p className="card-text">{dish.description}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <Loader />
+                                    )}
+                                    {this.props.loggedIn ? (
+                                        <div>                   
+                                            <h4 className='mt-2'>Can't find the dish you're looking for? Add a new dish:</h4>
+                                            <form className="form-group">
+                                                <label htmlFor="addDishName">Name:</label>
+                                                <input 
+                                                    name="newDishName"
+                                                    value={this.state.newDishName}
+                                                    onChange={this.handleInputChange}
+                                                    type="text" 
+                                                    className="form-control" 
+                                                    id="dishNameInput" 
+                                                    placeholder="Enter the dish name..."/>
+                                            </form>
+                                            <form className="form-group">
+                                                <label htmlFor="addDishDescriptionArea">Description:</label>
+                                                <textarea 
+                                                    name="newDishDescription"
+                                                    value={this.state.newDishDescription}
+                                                    onChange={this.handleInputChange}
+                                                    className="form-control" 
+                                                    id="dishDescriptionInput" 
+                                                    rows="3"
+                                                    >
+                                                </textarea>
+                                            </form>
+                                            <button 
+                                                className="btn btn-primary mb-3"
+                                                onClick={this.handleDishSubmit}
+                                                >
+                                                Add New Dish
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <p>
+                                            <a href='/sign_in'>Sign in</a> to add a new dish
+                                        </p>
+                                    )}
                                 </div>
                             ) : (
-                                <h3>Loading Dishes...</h3>
-                            )}                    
+                                <Loader />
+                            )}
                         </div>
                     </div>
                 </div>

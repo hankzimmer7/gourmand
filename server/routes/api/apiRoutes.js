@@ -20,6 +20,11 @@ router
   .route("/restaurants/:id/dishes")
   .get(dishesController.findByRestaurantId);
 
+//Matches with "/api/dishes/search_term/:term"
+router
+  .route("/restaurants/search_term/:term")
+  .get(restaurantsController.findByTerm);
+
 // Matches with "/api/dishes"
 router.route("/dishes")
   .get(dishesController.findAll)
@@ -32,25 +37,29 @@ router
   .put(dishesController.update)
   .delete(dishesController.delete);
 
-  
-  // Matches with "/api/reviews"
-  router.route("/reviews")
+//Matches with "/api/dishes/search_term/:term"
+router
+  .route("/dishes/search_term/:term")
+  .get(dishesController.findByTerm);
+
+// Matches with "/api/reviews"
+router.route("/reviews")
   .get(reviewsController.findAll)
   .post(reviewsController.create);
-  
-  // Matches with "/api/reviews/:id"
-  router
+
+// Matches with "/api/reviews/:id"
+router
   .route("/reviews/:id")
   .get(reviewsController.findById)
   .put(reviewsController.update)
   .delete(reviewsController.delete);
-  
-  // Matches with "/api/dishes/:dishId/reviews"
-  router.route("/dishes/:dishId/reviews")
+
+// Matches with "/api/dishes/:dishId/reviews"
+router.route("/dishes/:dishId/reviews")
   .get(reviewsController.findByDishId)
 
-  // Matches with "/api/users/:userId/reviews"
-  router.route("/users/:userId/reviews")
+// Matches with "/api/users/:userId/reviews"
+router.route("/users/:userId/reviews")
   .get(reviewsController.findByUserId)
 
 module.exports = router;

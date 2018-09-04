@@ -11,11 +11,11 @@ class DishSearch extends Component {
 
     //Once the component mounts, load dishes
     componentDidMount() {
-        this.loadDishes();
+        this.loadAllDishes();
     };
     
     //Load all dishes
-    loadDishes = () => {
+    loadAllDishes = () => {
         API.getAllDishes()
             .then(res =>
             this.setState({ 
@@ -33,11 +33,24 @@ class DishSearch extends Component {
             [name]: value
         });
     };
+
+    handleSearchSubmit = event => {
+        event.preventDefault();
+        API.getDishesByTerm(this.state.searchTerm)
+            .then(res =>
+                this.setState({ 
+                    dishes: res.data,
+                    dishesLoaded: true
+                }) 
+            )
+            .catch(err => console.log(err));
+    }
     
     //Render to the page
     render() {
 
         console.log("DishSearch this.state:", this.state)
+
         return (
             <div className="content-area">
                 <div className="container">
@@ -50,10 +63,16 @@ class DishSearch extends Component {
                                 onChange={this.handleInputChange}
                                 type="text" 
                                 className="form-control mb-2 mr-sm-2" 
-                                id="inlineFormInputName2" 
+                                id="inputDishSearch" 
                                 placeholder="Search for a dish..."
                             />
-                            <button type="submit" className="btn btn-primary mb-2">Search</button>
+                            <button 
+                                type="submit" 
+                                className="btn btn-primary mb-2"
+                                onClick={this.handleSearchSubmit}
+                            >
+                                Search
+                            </button>
                         </form>
                         
                         <div className ="jumobotron">
@@ -63,7 +82,12 @@ class DishSearch extends Component {
                                     <div className="col-12" key={dish._id}>
                                         <div className="card mb-1">
                                             <div className="card-body">
-                                                <h2 className="card-title"><a href={`restaurants/${dish.restaurant}/dishes/${dish._id}`}>{dish.name}</a></h2>
+                                                <h2 className="card-title"><a href={`restaurants/${dish.restaurant._id}/dishes/${dish._id}`}>{dish.name}</a></h2>
+                                                <p>
+                                                    <a href={`restaurants/${dish.restaurant._id}`}>
+                                                        {dish.restaurant.name}
+                                                    </a>
+                                                </p>
                                                 <p className="card-text">{dish.description}</p>
                                             </div>
                                         </div>

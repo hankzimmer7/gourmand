@@ -8,7 +8,7 @@ a:hover {
 
 .content-area {
   background-image: url('./images/food-background.jpg');
-  height: 1000px;
+  padding-bottom: 100px;
 }
 
 .jumbotron {

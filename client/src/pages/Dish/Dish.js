@@ -152,9 +152,44 @@ class Dish extends Component {
                                         )}
                                     </div>
                                     <h3>Reviews</h3>
+                                {this.state.reviewsLoaded ? (
+                                    <div className="row">
+                                        {this.state.reviews.map(review => (
+                                        <div className="col-12" key={review._id}>
+                                            <div className="card mb-1">
+                                                <div className="card-body">
+                                                    {review.author ? (
+                                                    <h5 className="card-title">{review.author.username}</h5>
+                                                ) : (
+                                                        <h5 className="card-title"> Deactivated User </h5>
+                                                    )}
+                                                    <p className="card-text">{review.rating}/5 Stars 
+                                                        <span className="text-muted"> {moment(review.date).format('MMMM Do, YYYY')}</span>
+                                                    </p>
+                                                    <p className="card-text">{review.body}</p>
+                                                    {this.props.user && (
+                                                        <div>
+                                                            {(this.props.userData.account_type === 'administrator') && (
+                                                                <button 
+                                                                    className="btn btn-primary"
+                                                                    onClick={() => this.handleDeleteReview(review._id)}
+                                                                    >
+                                                                    Delete Review
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <Loader />
+                                )}                
                                     {this.props.loggedIn ? (
                                         <form className="mb-2">
-                                            <h4>Add your own review:</h4>
+                                            <h4 className="mt-2">Add your own review:</h4>
                                             <div className="form-group row">
                                                 <label htmlFor="FormControlSelect1" className="col-lg-3 col-md-4 col-form-label">Select your rating:</label>
                                                 <div className="col-lg-4 col-md-4">
@@ -213,41 +248,6 @@ class Dish extends Component {
                             ) : (
                                 <Loader />
                             )}
-                            {this.state.reviewsLoaded ? (
-                                <div className="row">
-                                    {this.state.reviews.map(review => (
-                                    <div className="col-12" key={review._id}>
-                                        <div className="card mb-1">
-                                            <div className="card-body">
-                                                {review.author ? (
-                                                <h5 className="card-title">{review.author.username}</h5>
-                                                ) : (
-                                                    <h5 className="card-title"> Deactivated User </h5>
-                                                )}
-                                                <p className="card-text">{review.rating}/5 Stars 
-                                                    <span className="text-muted"> {moment(review.date).format('MMMM Do, YYYY')}</span>
-                                                </p>
-                                                <p className="card-text">{review.body}</p>
-                                                {this.props.user && (
-                                                    <div>
-                                                        {(this.props.userData.account_type === 'administrator') && (
-                                                            <button 
-                                                                className="btn btn-primary"
-                                                                onClick={() => this.handleDeleteReview(review._id)}
-                                                            >
-                                                                Delete Review
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <Loader />
-                            )}                
                         </div>
                     </div>
                 </div>

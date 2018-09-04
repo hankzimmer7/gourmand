@@ -9,22 +9,23 @@ class RestaurantSearch extends Component {
         restaurantsLoaded: false,
         newRestaurantName: '',
         newRestaurantAddress: '',
-        newRestaurantDescription: ''
+        newRestaurantDescription: '',
+        searchTerm: ''
     };
 
     componentDidMount() {
-    this.loadRestaurants();
+    this.loadAllRestaurants();
     };
 
-    loadRestaurants = () => {
-    API.getRestaurants()
-        .then(res =>
-        this.setState({ 
-            restaurants: res.data,
-            restaurantsLoaded: true
-        })
-        )
-        .catch(err => console.log(err));
+    loadAllRestaurants = () => {
+        API.getAllRestaurants()
+            .then(res =>
+            this.setState({ 
+                restaurants: res.data,
+                restaurantsLoaded: true
+            })
+            )
+            .catch(err => console.log(err));
     };
 
     //Handle changes to the input form
@@ -34,6 +35,18 @@ class RestaurantSearch extends Component {
             [name]: value
         });
     };
+
+    handleSearchSubmit = event => {
+        event.preventDefault();
+        API.getRestaurantsByTerm(this.state.searchTerm)
+            .then(res =>
+                this.setState({ 
+                    restaurants: res.data,
+                    restaurantsLoaded: true
+                }) 
+            )
+            .catch(err => console.log(err));
+    }
 
     //Submit a new restaurant when the user clicks the submit button
     handleRestaurantSubmit = event => {
@@ -75,50 +88,23 @@ class RestaurantSearch extends Component {
                     <div className ="jumbotron">
                     <h2>Restaurant Search Page</h2>
                     <form className="form-inline">
-                        <input type="text" className="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Search..."/>
-                        <button type="submit" className="btn btn-primary mb-2">Submit</button>
-                    </form>
-                    <h4>Add a new restaurant:</h4>
-                    <form className="form-group">
-                        <label htmlFor="addRestaurantName">Name:</label>
-                        <input 
-                            name="newRestaurantName"
-                            value={this.state.newRestaurantName}
+                        <input
+                            name="searchTerm"
+                            value={this.state.searchTerm}
                             onChange={this.handleInputChange}
                             type="text" 
-                            className="form-control" 
-                            id="restaurantNameInput" 
-                            placeholder="Enter the restaurant name..."/>
-                    </form>
-                    <form className="form-group">
-                        <label htmlFor="addRestaurantAddress">Address:</label>
-                        <input 
-                            name="newRestaurantAddress"
-                            value={this.state.newRestaurantAddress}
-                            onChange={this.handleInputChange}
-                            type="text" 
-                            className="form-control" 
-                            id="restaurantAddressInput" 
-                            placeholder="Enter the restaurant address..."/>
-                    </form>
-                    <form className="form-group">
-                        <label htmlFor="addRestaurantDescriptionArea">Description:</label>
-                        <textarea 
-                            name="newRestaurantDescription"
-                            value={this.state.newRestaurantDescription}
-                            onChange={this.handleInputChange}
-                            className="form-control" 
-                            id="restaurantDescriptionArea" 
-                            rows="3"
-                            >
-                        </textarea>
-                    </form>
-                    <button 
-                        className="btn btn-primary mb-3"
-                        onClick={this.handleRestaurantSubmit}
+                            className="form-control mb-2 mr-sm-2" 
+                            id="inputRestaurantSearch" 
+                            placeholder="Search..."
+                        />
+                        <button 
+                            type="submit" 
+                            className="btn btn-primary mb-2"
+                            onClick={this.handleSearchSubmit}
                         >
-                        Add New Restaurant
-                    </button>                
+                            Submit
+                        </button>
+                    </form>
                     {this.state.restaurantsLoaded ? (
                     <div className="row">
                         {this.state.restaurants.map(restaurant => (
@@ -134,7 +120,56 @@ class RestaurantSearch extends Component {
                     </div>
                     ) : (
                     <Loader />
-                    )} 
+                    )}
+                    {this.props.loggedIn ? (
+                        <div>
+                            <h4 className="mt-2">Can't find the restaurant you're looking for? Add a new restaurant:</h4>
+                            <form className="form-group">
+                                <label htmlFor="addRestaurantName">Name:</label>
+                                <input 
+                                    name="newRestaurantName"
+                                    value={this.state.newRestaurantName}
+                                    onChange={this.handleInputChange}
+                                    type="text" 
+                                    className="form-control" 
+                                    id="restaurantNameInput" 
+                                    placeholder="Enter the restaurant name..."/>
+                            </form>
+                            <form className="form-group">
+                                <label htmlFor="addRestaurantAddress">Address:</label>
+                                <input 
+                                    name="newRestaurantAddress"
+                                    value={this.state.newRestaurantAddress}
+                                    onChange={this.handleInputChange}
+                                    type="text" 
+                                    className="form-control" 
+                                    id="restaurantAddressInput" 
+                                    placeholder="Enter the restaurant address..."/>
+                            </form>
+                            <form className="form-group">
+                                <label htmlFor="addRestaurantDescriptionArea">Description:</label>
+                                <textarea 
+                                    name="newRestaurantDescription"
+                                    value={this.state.newRestaurantDescription}
+                                    onChange={this.handleInputChange}
+                                    className="form-control" 
+                                    id="restaurantDescriptionArea" 
+                                    rows="3"
+                                    >
+                                </textarea>
+                            </form>
+                            <button 
+                                className="btn btn-primary mb-3"
+                                onClick={this.handleRestaurantSubmit}
+                                >
+                                Add New Restaurant
+                            </button>
+                        </div>
+                    ) : (
+                        <p>
+                            <a href='/sign_in'>Sign in</a> to add a new restaurant
+                        </p>
+                    )}               
                     </div>
                 </div>
             </div>

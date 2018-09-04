@@ -5,12 +5,16 @@ export default {
     //---------------Restaurant Routes---------------
 
     // Gets all restaurants
-    getRestaurants: function () {
+    getAllRestaurants: function () {
         return axios.get("/api/restaurants");
     },
     // Gets the restaurant with the given id
     getRestaurant: function (id) {
         return axios.get(`/api/restaurants/${id}`);
+    },
+    // Get dishes the given term
+    getRestaurantsByTerm: function (term) {
+        return axios.get(`/api/restaurants/search_term/${term}`);
     },
     //Add a new restaurant
     addRestaurant: function (newRestaurant) {
@@ -34,6 +38,10 @@ export default {
     // Get the dish with the given id
     getDish: function (id) {
         return axios.get(`/api/dishes/${id}`);
+    },
+    // Get dishes the given term
+    getDishesByTerm: function (term) {
+        return axios.get(`/api/dishes/search_term/${term}`);
     },
     //Add a new dish
     addDish: function (newDish) {
