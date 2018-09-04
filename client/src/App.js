@@ -17,7 +17,9 @@ class App extends Component {
 	state = {
 		loggedIn: null,
 		user: null,
-		userCheckDone: false
+		userCheckDone: false,
+		userData: [],
+		userLoaded: false
 	}
 
   componentDidMount = () => {
@@ -37,8 +39,8 @@ class App extends Component {
 					userCheckDone: true
 				})
 			} else {
-        // console.log("There is no user logged in. Response.data:");
-        // console.log("Response.data?");
+				// console.log("There is no user logged in. Response.data:");
+				// console.log("Response.data?");
 				this.setState({
 					loggedIn: false,
 					user: null,
@@ -46,7 +48,30 @@ class App extends Component {
 				})
 			}
 		})
+		// .then( () => {
+		// 	this.loadUser();
+		// })
+		.then( () => {
+			if (this.state.loggedIn) {
+				this.loadUser();
+			}
+		})
   }
+
+  loadUser = () => {
+	axios.get(`/api/users/${this.state.user.username}`)
+	.then(response => {
+		if(response.data) {
+			console.log(`Response from get /api/users/${this.state.user.username}`, response);
+			this.setState({
+				user:response.data,
+				userLoaded: true
+			});
+	   } else {
+			console.log(`No response from get /api/users/${this.state.user.username}`)
+	   }
+	})
+}
   
   updateUser = userObject => {
     // console.log("updateUser function argument:");
@@ -131,6 +156,7 @@ class App extends Component {
 									exact path="/restaurants/:restaurant/dishes/:dish" 
 									render={(routeProps) => <Dish {...routeProps} 
 									user={this.state.user} 
+									userData={this.state.userData} 
 									loggedIn={this.state.loggedIn}/>} 
 								/>
 								<Route 
