@@ -70,7 +70,7 @@ class RestaurantSearch extends Component {
                     newRestaurantAddress: '',
                     newRestaurantDescription: ''
                  })
-                this.loadRestaurants();
+                this.loadAllRestaurants();
             }).catch(error => {
                 console.log('Error posting restaurant: ')
                 console.log(error);                
