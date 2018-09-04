@@ -93,7 +93,7 @@ class Dish extends Component {
             .then(response => {
                 console.log("Delete dish response: ", response);
                 this.setState({
-                    redirectTo: `/restaurants/${this.state.dish.restaurant}`
+                    redirectTo: `/restaurants/${this.state.dish.restaurant._id}`
                 });
                 console.log("set state to redirect to restaurant")
             }).catch(error => {

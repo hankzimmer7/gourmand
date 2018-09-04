@@ -79,7 +79,7 @@ class Restaurant extends Component {
                     newDishName: '',
                     newDishDescription: ''
                  })
-                this.loadDishes();
+                this.loadAllDishes();
             }).catch(error => {
                 console.log('Error posting dish: ')
                 console.log(error);                
