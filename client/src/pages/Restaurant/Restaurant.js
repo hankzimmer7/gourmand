@@ -60,9 +60,6 @@ class Restaurant extends Component {
 
     //Submit a new dish when the user clicks the submit button
     handleDishSubmit = event => {
-        // const currentDate = new Date();
-        // console.log("Current date:", currentDate);
-        // console.log("Current date in ISO:",moment(currentDate).toISOString);
         event.preventDefault();
         const newDish = {
             name: this.state.newDishName,
@@ -79,7 +76,7 @@ class Restaurant extends Component {
                     newDishName: '',
                     newDishDescription: ''
                  })
-                this.loadAllDishes();
+                this.loadDishes();
             }).catch(error => {
                 console.log('Error posting dish: ')
                 console.log(error);                
