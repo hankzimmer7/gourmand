@@ -128,7 +128,7 @@ class Restaurant extends Component {
                                         <div>
                                             {this.props.user.account_type === 'administrator' && (
                                                 <button 
-                                                    className="btn btn-primary mb-3"
+                                                    className="btn mb-3"
                                                     onClick={() => this.handleDeleteRestaurant(this.state.restaurant._id)}
                                                 >
                                                     Delete Restaurant
@@ -183,7 +183,7 @@ class Restaurant extends Component {
                                                 </textarea>
                                             </form>
                                             <button 
-                                                className="btn btn-primary mb-3"
+                                                className="btn mb-3"
                                                 onClick={this.handleDishSubmit}
                                                 >
                                                 Add New Dish

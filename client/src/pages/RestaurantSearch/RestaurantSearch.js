@@ -75,9 +75,6 @@ class RestaurantSearch extends Component {
 
     render() {
 
-        console.log("RestaurantSearch.js this.state:", this.state);
-        console.log("RestaurantSearch.js this.props:", this.props)
-
         return (
             <div className="content-area">
                 <div className="container">
@@ -95,7 +92,7 @@ class RestaurantSearch extends Component {
                         />
                         <button 
                             type="submit" 
-                            className="btn btn-primary mb-2"
+                            className="btn mb-2"
                             onClick={this.handleSearchSubmit}
                         >
                             Submit

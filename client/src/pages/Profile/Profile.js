@@ -97,7 +97,7 @@ class Profile extends Component {
                                                 </p>
                                                 <p className="card-text">{review.body}</p>
                                                 <button 
-                                                    className="btn btn-primary"
+                                                    className="btn"
                                                     onClick={() => this.handleDeleteReview(review._id)}
                                                 >
                                                     Delete Review

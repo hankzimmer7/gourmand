@@ -125,8 +125,6 @@ class App extends Component {
   
   render() {
 
-		console.log("App this.state: ", this.state);
-
     return (
 		<div>
 			{this.state.userCheckDone ? (

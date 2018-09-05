@@ -7,10 +7,10 @@ import Loader from '../../components/Loader';
 class Dish extends Component {
     state = {
         dish: [],
-        reviews: [],
+        // reviews: [],
         averageRating: '',
         dishLoaded: false,
-        reviewsLoaded: false,
+        // reviewsLoaded: false,
         reviewRating: '',
         reviewBody: '',
         dateVisited: '',
@@ -20,7 +20,7 @@ class Dish extends Component {
 
     componentDidMount() {
         this.loadDish(this.props.match.params.dish);
-        this.loadReviews();
+        // this.loadReviews();
     };
     
     loadDish = (id) => {
@@ -30,38 +30,46 @@ class Dish extends Component {
                 this.setState({ 
                     dish: response.data,
                     dishLoaded: true
+                }, () => {
+                    if (this.state.dish.reviews.length) {
+                        this.calculateAverageRating();
+                    }
                 });
             }
             )
         .catch(err => console.log(err));
     };
-
-    calculateAverageRating = () => {
-            let totalRating = this.state.dish.reviews.reduce(function (accumulator, review) {
-                return accumulator + review.rating;
-              }, 0);
-            let averageRating = totalRating/this.state.dish.reviews.length;
-    
-            console.log("total rating:",totalRating);
-            console.log("average rating:",averageRating);
-
-            this.setState({ averageRating: averageRating})
-    };
-
 
     //Load the reviews for the current dish
-    loadReviews = () => {
-        const dishId = this.props.match.params.dish
-        API.getDishReviews(dishId)
-            .then(response => {
-                console.log("Dish.js loadReview api result", response);
-                this.setState({ 
-                    reviews: response.data,
-                    reviewsLoaded: true
-                });
-            }
-            )
-        .catch(err => console.log(err));
+    // loadReviews = () => {
+    //     const dishId = this.props.match.params.dish
+    //     API.getDishReviews(dishId)
+    //         .then(response => {
+    //             console.log("Dish.js loadReview api result", response);
+    //             this.setState({ 
+    //                 reviews: response.data,
+    //                 reviewsLoaded: true
+    //             }, () => {
+    //                 if (this.state.dish.reviews.length) {
+    //                     this.calculateAverageRating();
+    //                 }
+    //             })
+
+    //             // let newRating = this.calculateAverageRating();
+    //             // this.setState({
+    //             //     averageRating: newRating
+    //             // })
+    //         })
+    //     .catch(err => console.log(err));
+    // };
+
+    //Calculates the average dish rating based off of the reviews
+    calculateAverageRating = () => {
+        let totalRating = this.state.dish.reviews.reduce(function (accumulator, review) {
+            return accumulator + review.rating;
+            }, 0);
+        let newRating = (Math.round(totalRating/this.state.dish.reviews.length*10)/10).toFixed(1);
+        this.setState({ averageRating: newRating})
     };
 
     //Handle changes to the input form for adding a review
@@ -96,7 +104,6 @@ class Dish extends Component {
             body: this.state.reviewBody,
             date: this.state.dateVisited
         }
-        console.log("new review: ", newReview);
         API.addReview(newReview)
             .then(response => {
                 console.log("addreview repsonse: ", response);
@@ -145,16 +152,16 @@ class Dish extends Component {
     render() {
 
         console.log("Dish.js this.state", this.state);
-        console.log("Dish.js this.props", this.props);
 
         // if (this.state.dishLoaded){
-        //     let totalRating = this.state.dish.reviews.reduce(function (accumulator, review) {
-        //         return accumulator + review.rating;
-        //       }, 0);
-        //     let averageRating = totalRating/this.state.dish.reviews.length;
+            // let totalRating = this.state.dish.reviews.reduce(function (accumulator, review) {
+            //     return accumulator + review.rating;
+            //   }, 0);
+            // let averageRating = totalRating/this.state.dish.reviews.length;
     
-        //       console.log("total rating:",totalRating);
-        //       console.log("average rating:",averageRating);
+            //   console.log("total rating:",totalRating);
+            //   console.log("average rating:",averageRating);
+        //     let averageRating = this.calculateAverageRating();
         // }
 
         if (this.state.redirectTo) {
@@ -176,12 +183,17 @@ class Dish extends Component {
                                         <p>
                                             {this.state.dish.description}                                               
                                         </p>
-                                        <p>{this.state.averageRating} Stars, {this.state.reviews.length} Reviews</p>
+                                        <p>
+                                            {/* {(this.state.dish.reviews.length>0) && '5  Stars,'} */}
+                                            {(this.state.dish.reviews.length>0) && `${this.state.averageRating} Stars, `}
+                                            {this.state.dish.reviews.length} Reviews
+                                            {/* {this.state.averageRating} Stars, {this.state.dish.reviews.length} Reviews */}
+                                        </p>
                                         {this.props.loggedIn && (
                                             <div>
                                                 {this.props.user.account_type === 'administrator' && (
                                                     <button 
-                                                        className="btn btn-primary mb-3"
+                                                        className="btn mb-3"
                                                         onClick={() => this.handleDeleteDish(this.state.dish._id)}
                                                     >
                                                         Delete Dish
@@ -191,9 +203,8 @@ class Dish extends Component {
                                         )}
                                     </div>
                                     <h3>Reviews</h3>
-                                {this.state.reviewsLoaded ? (
                                     <div className="row">
-                                        {this.state.reviews.map(review => (
+                                        {this.state.dish.reviews.map(review => (
                                         <div className="col-12" key={review._id}>
                                             <div className="card mb-1">
                                                 <div className="card-body">
@@ -210,7 +221,7 @@ class Dish extends Component {
                                                         <div>
                                                             {(this.props.user.account_type === 'administrator') && (
                                                                 <button 
-                                                                    className="btn btn-primary"
+                                                                    className="btn"
                                                                     onClick={() => this.handleDeleteReview(review._id)}
                                                                     >
                                                                     Delete Review
@@ -222,10 +233,7 @@ class Dish extends Component {
                                             </div>
                                         </div>
                                         ))}
-                                    </div>
-                                ) : (
-                                    <Loader />
-                                )}                
+                                    </div>          
                                     {this.props.loggedIn ? (
                                         <form className="mb-2">
                                             <h4 className="mt-2">Add your own review:</h4>
@@ -273,7 +281,7 @@ class Dish extends Component {
                                             </div>
                                             <button 
                                                 type="submit" 
-                                                className="btn btn-primary btn-lg"
+                                                className="btn btn-lg"
                                                 onClick={this.handleReviewSubmit}
                                             >
                                                 Submit My Review

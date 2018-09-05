@@ -11,8 +11,8 @@ a {
   color: black;
 }
 
-a:hover {
   cursor: pointer;
+a:hover {
   color: rgb(255, 150, 30)
 }
 
