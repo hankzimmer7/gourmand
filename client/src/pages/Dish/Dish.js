@@ -7,10 +7,8 @@ import Loader from '../../components/Loader';
 class Dish extends Component {
     state = {
         dish: [],
-        // reviews: [],
         averageRating: '',
         dishLoaded: false,
-        // reviewsLoaded: false,
         reviewRating: '',
         reviewBody: '',
         dateVisited: '',
@@ -19,18 +17,19 @@ class Dish extends Component {
     };
 
     componentDidMount() {
-        this.loadDish(this.props.match.params.dish);
-        // this.loadReviews();
+        this.loadDish();
     };
     
-    loadDish = (id) => {
+    //Load the dish an save it in the component state
+    loadDish = () => {
+        const id = this.props.match.params.dish;
         API.getDish(id)
             .then(response => {
-                // console.log("Dish.js loadDish api result", response);
                 this.setState({ 
                     dish: response.data,
                     dishLoaded: true
                 }, () => {
+                    // If the dish has reviews, caluclate the average rating
                     if (this.state.dish.reviews.length) {
                         this.calculateAverageRating();
                     }
@@ -39,29 +38,6 @@ class Dish extends Component {
             )
         .catch(err => console.log(err));
     };
-
-    //Load the reviews for the current dish
-    // loadReviews = () => {
-    //     const dishId = this.props.match.params.dish
-    //     API.getDishReviews(dishId)
-    //         .then(response => {
-    //             console.log("Dish.js loadReview api result", response);
-    //             this.setState({ 
-    //                 reviews: response.data,
-    //                 reviewsLoaded: true
-    //             }, () => {
-    //                 if (this.state.dish.reviews.length) {
-    //                     this.calculateAverageRating();
-    //                 }
-    //             })
-
-    //             // let newRating = this.calculateAverageRating();
-    //             // this.setState({
-    //             //     averageRating: newRating
-    //             // })
-    //         })
-    //     .catch(err => console.log(err));
-    // };
 
     //Calculates the average dish rating based off of the reviews
     calculateAverageRating = () => {
@@ -106,14 +82,13 @@ class Dish extends Component {
         }
         API.addReview(newReview)
             .then(response => {
-                console.log("addreview repsonse: ", response);
                 this.setState({
                     reviewRating: '',
                     reviewBody: '',
                     dateVisited: '',
                     reviewErrorMessage: ''
                 })
-                this.loadReviews();
+                this.loadDish();
             }).catch(error => {
                 console.log('Error posting review: ')
                 console.log(error);                
@@ -125,11 +100,9 @@ class Dish extends Component {
         console.log("Clicked delete dish for dish Id: ", id)
         API.deleteDish(id)
             .then(response => {
-                console.log("Delete dish response: ", response);
                 this.setState({
                     redirectTo: `/restaurants/${this.state.dish.restaurant._id}`
                 });
-                console.log("set state to redirect to restaurant")
             }).catch(error => {
                 console.log('Error deleting dish: ')
                 console.log(error);   
@@ -148,19 +121,6 @@ class Dish extends Component {
     }
     
     render() {
-
-        console.log("Dish.js this.state", this.state);
-
-        // if (this.state.dishLoaded){
-            // let totalRating = this.state.dish.reviews.reduce(function (accumulator, review) {
-            //     return accumulator + review.rating;
-            //   }, 0);
-            // let averageRating = totalRating/this.state.dish.reviews.length;
-    
-            //   console.log("total rating:",totalRating);
-            //   console.log("average rating:",averageRating);
-        //     let averageRating = this.calculateAverageRating();
-        // }
 
         if (this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
@@ -182,10 +142,8 @@ class Dish extends Component {
                                             {this.state.dish.description}                                               
                                         </p>
                                         <p>
-                                            {/* {(this.state.dish.reviews.length>0) && '5  Stars,'} */}
                                             {(this.state.dish.reviews.length>0) && `${this.state.averageRating} Stars, `}
                                             {this.state.dish.reviews.length} Reviews
-                                            {/* {this.state.averageRating} Stars, {this.state.dish.reviews.length} Reviews */}
                                         </p>
                                         {this.props.loggedIn && (
                                             <div>

@@ -8,7 +8,6 @@ const Loader = () => (
             sizeUnit={"px"}
             size={20}
             color={'black'}
-            // loading={this.state.loading}
         />
     </div> 
 )

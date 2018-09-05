@@ -32,22 +32,15 @@ class DishSearch extends Component {
     calculateAverageRating = () => {
         let dishesWithAvgRatings = [];
         this.state.dishes.forEach(function (dish, i) {
-            console.log("dish.name",dish.name);
             let dishWithAvgRating = dish;
             if(dish.reviews.length>0) {
                 let totalRating = dish.reviews.reduce(function (accumulator, review) {
                     return accumulator + review.rating;
                 }, 0);
                 let newRating = (Math.round(totalRating/dish.reviews.length*10)/10).toFixed(1);
-                // this.setState({ averageRating: newRating})
-                console.log('average rating', newRating);
-
                 dishWithAvgRating.averageRating = newRating;
-            } else {
-                console.log(`${dish.name} has no reviews`);                
             }
-            dishesWithAvgRatings.push(dishWithAvgRating);
-            
+            dishesWithAvgRatings.push(dishWithAvgRating);            
         })
         this.setState({
             dishes: dishesWithAvgRatings
@@ -62,6 +55,7 @@ class DishSearch extends Component {
         });
     };
 
+    //When the user searches for a fish
     handleSearchSubmit = event => {
         event.preventDefault();
         API.getDishesByTerm(this.state.searchTerm)
@@ -76,9 +70,6 @@ class DishSearch extends Component {
     
     //Render to the page
     render() {
-
-        console.log("DishSearch this.state:", this.state)
-
         return (
             <div className="content-area">
                 <div className="container">

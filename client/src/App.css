@@ -13,7 +13,8 @@ a {
 
 a:hover {
   cursor: pointer;
-  color: rgb(255, 150, 30)
+  color: rgb(255, 150, 30);
+  text-decoration: none;
 }
 
 .content-area {
@@ -57,14 +58,9 @@ a:hover {
 }
 
 .rating-display-text {
-  /* font-size: 1rem; */
   text-align: right;
   margin-bottom: 1rem;
   color: gray;
-  /* float:right; */
-  /* position: absolute; */
-  /* top:1rem; */
-  /* right: 1rem; */
 }
 
 /* Large devices (desktops, less than 1200px) */
@@ -94,9 +90,10 @@ a:hover {
   .jumbotron {
     padding: 1rem 1rem;
   }
+
   .rating-display-text {
     text-align: left;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -113,7 +110,6 @@ a:hover {
   h4 {
     font-size: 1rem;
   }
-
 }
 
 /* Tiny devices */
@@ -124,5 +120,10 @@ a:hover {
 
   h2 {
     font-size: 1.2rem;
+  }
+
+  .rating-display-text {
+    text-align: left;
+    font-size: 0.8rem;
   }
 }

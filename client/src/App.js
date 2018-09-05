@@ -28,20 +28,14 @@ class App extends Component {
   }
 
   checkUser = () => {
-		// console.log("Querying axios.get('/api/users/current')")
 		axios.get('/api/users').then(response => {
 			if (response.data.user) {
-        // console.log("A user is logged in");
-        // console.log("Response.data: ");
-        // console.log(response.data);
 				this.setState({
 					loggedIn: true,
 					user: response.data.user,
 					userCheckDone: true
 				})
 			} else {
-				// console.log("There is no user logged in. Response.data:");
-				// console.log("Response.data?");
 				this.setState({
 					loggedIn: false,
 					user: null,
@@ -49,9 +43,6 @@ class App extends Component {
 				})
 			}
 		})
-		// .then( () => {
-		// 	this.loadUser();
-		// })
 		.then( () => {
 			if (this.state.loggedIn) {
 				this.loadUser();
@@ -63,7 +54,6 @@ class App extends Component {
 	axios.get(`/api/users/${this.state.user.username}`)
 	.then(response => {
 		if(response.data) {
-			console.log(`Response from get /api/users/${this.state.user.username}`, response);
 			this.setState({
 				user:response.data,
 				userLoaded: true
@@ -75,22 +65,16 @@ class App extends Component {
 }
   
   updateUser = userObject => {
-    // console.log("updateUser function argument:");
-    // console.log(userObject);
     this.setState(userObject);
   }
 
   login = (username, password) => {
-
-		// console.log("App.js login function executing. Setting logginIn to true and user to response.data.user");
 		axios
 			.post('/api/users/login', {
 				username,
 				password
 			})
 			.then(response => {
-				// console.log("App.js got response from post request to /api/users/login. Response:")
-				// console.log(response)
 				if (response.status === 200) {
 					// update the state
 					this.setState({
@@ -104,7 +88,6 @@ class App extends Component {
   
   logout = (event) => {
 		event.preventDefault();
-    // console.log('App logout function executing. logged in should update to false and username to null');
 		axios.post('/api/users/logout').then(response => {
 			console.log(response.data)
 			if (response.status === 200) {
@@ -116,11 +99,6 @@ class App extends Component {
 			}
 			window.location.reload();
 		})
-	// 	.then( () => {
-	// 		// console.log("Checking user");
-	// 		// this.checkUser();
-	// 		window.location.reload();
-	// 	})
 	}
   
   render() {

@@ -16,30 +16,26 @@ class Restaurant extends Component {
     };
 
     componentDidMount() {
-        // console.log("Restaurant.js component mounted");
-        // console.log("this.match.params", this.props.match.params);
-        this.loadRestaurant(this.props.match.params.restaurant);
+        this.loadRestaurant();
     };
     
     //Load the info for the current restaurant
-    loadRestaurant = (id) => {
+    loadRestaurant = () => {
+        const id = this.props.match.params.restaurant;
         API.getRestaurant(id)
             .then(response => {
-                // console.log("Restaurant.js loadRestaurant api result", response);
                 this.setState({ 
                     restaurant: response.data,
                     restaurantLoaded: true
                 });
                 this.loadDishes();
-            }
-            )
+            })
             .catch(err => console.log(err));
     };
 
     //Load dishes for the restaurant
     loadDishes = () => {
         const restaurantId = this.state.restaurant._id;
-        // console.log("Restaurant.js loadDishes about to query api for where restaurant ID:", restaurantId);
         API.getRestaurantDishes(restaurantId)
             .then(res =>
             this.setState({ 
@@ -56,22 +52,15 @@ class Restaurant extends Component {
     calculateAverageRating = () => {
         let dishesWithAvgRatings = [];
         this.state.dishes.forEach(function (dish, i) {
-            console.log("dish.name",dish.name);
             let dishWithAvgRating = dish;
             if(dish.reviews.length>0) {
                 let totalRating = dish.reviews.reduce(function (accumulator, review) {
                     return accumulator + review.rating;
                 }, 0);
                 let newRating = (Math.round(totalRating/dish.reviews.length*10)/10).toFixed(1);
-                // this.setState({ averageRating: newRating})
-                console.log('average rating', newRating);
-
                 dishWithAvgRating.averageRating = newRating;
-            } else {
-                console.log(`${dish.name} has no reviews`);                
             }
-            dishesWithAvgRatings.push(dishWithAvgRating);
-            
+            dishesWithAvgRatings.push(dishWithAvgRating);            
         })
         this.setState({
             dishes: dishesWithAvgRatings
@@ -96,10 +85,8 @@ class Restaurant extends Component {
             added_by: this.props.user._id,
             date_added: moment(new Date()).toISOString()
         }
-        console.log("new dish: ", newDish); 
         API.addDish(newDish)
-            .then(response => {
-                console.log("addDish response: ", response);
+            .then(res => {
                 this.setState({
                     newDishName: '',
                     newDishDescription: ''
@@ -113,24 +100,18 @@ class Restaurant extends Component {
 
     //When the user clicks the "Delete Restaurant" button, delete the restaurant and all associated dishes & reviews
     handleDeleteRestaurant = id => {
-        console.log("Clicked delete restaurant for restaurant Id: ", id)
         API.deleteRestaurant(id)
             .then(response => {
-                console.log("Delete restaurant response: ", response);
                 this.setState({
                     redirectTo: `/restaurant_search`
                 });
-                console.log("set state to redirect to restaurant search")
             }).catch(error => {
                 console.log('Error deleting restaurant: ')
                 console.log(error);   
             })
     }
     
-    render() {
-
-        console.log("Restaurant.js this.state", this.state);
-        
+    render() {      
         if (this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
         } else {

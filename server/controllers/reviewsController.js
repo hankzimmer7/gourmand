@@ -18,7 +18,6 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   findByDishId: function (req, res) {
-    // console.log('hit reviews controller.js find dish by id. req.params: ', req.params);
     db.Review
       .find({
         dish: req.params.dishId
@@ -47,7 +46,6 @@ module.exports = {
     db.Review
       .create(req.body)
       .then(dbReview => {
-        console.log("reviewsController dbReview", dbReview);
         return db.Dish.findOneAndUpdate({
           _id: dbReview.dish
         }, {
@@ -57,7 +55,6 @@ module.exports = {
         }, { new: true });
       })
       .then(dbDish => {
-        console.log("review Constoller dbDish", dbDish);
         res.json(dbDish);
       })
       .catch(err => res.status(422).json(err));
@@ -71,7 +68,6 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   delete: function (req, res) {
-    // console.log("Hit reviews controller remove function. req.params: ", req.params);
     db.Review
       .deleteOne({
         _id: req.params.id

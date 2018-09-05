@@ -16,7 +16,6 @@ class Profile extends Component {
     };
 
     componentDidMount = () => {
-        console.log("Profile.js this.props: ", this.props)
         if (this.props.loggedIn) {
             this.loadUser();
         } else {
@@ -26,11 +25,11 @@ class Profile extends Component {
         }
     }
 
+    //Load the current user information
     loadUser = () => {
         axios.get(`/api/users/${this.props.user.username}`)
         .then(response => {
             if(response.data) {
-                console.log(`Response from get /api/users/${this.props.user.username}`, response);
                 this.setState({
                     user:response.data,
                     userLoaded: true
@@ -47,7 +46,6 @@ class Profile extends Component {
         const userId = this.state.user._id;
         API.getUserReviews(userId)
             .then(response => {
-                // console.log("Profile.js loadReview api result", response);
                 this.setState({ 
                     reviews: response.data,
                     reviewsLoaded: true
@@ -57,11 +55,18 @@ class Profile extends Component {
         .catch(err => console.log(err));
     };
 
+    //When the user clicks the "Delete Review" button, delete the review
+    handleDeleteReview = id => {
+        API.deleteReview(id)
+            .then(res => {
+                this.loadReviews();
+            }).catch(error => {
+                console.log('Error deleting review: ')
+                console.log(error);   
+            })
+    }
+
     render() {
-
-        console.log("Profile.js this.state: ", this.state);
-        // console.log("Profile.js this.state.user.length: ", this.state.user.length);
-
         if (this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
         } else {

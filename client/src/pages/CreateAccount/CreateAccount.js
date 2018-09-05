@@ -16,6 +16,7 @@ class CreateAccount extends Component {
     }
 
     componentDidMount = () => {
+        //Redirect to dish search if the user is already logged in
         if (this.props.loggedIn) {
             this.setState({
                 redirectTo: '/dish_search'
@@ -23,15 +24,14 @@ class CreateAccount extends Component {
         }
     }
 
+    //When the user types in an input box
     handleInputChange = event => {
         const { name, value } = event.target;
         //Update the username and password
         this.setState({
           [name]: value
-        }, () => {
-            
+        }, () => {            
             if(this.state.username) {
-
                 //Check if the username is already taken and update state appropriately
                 axios.get(`/api/users/${this.state.username}`)
                 .then(response => {
@@ -62,7 +62,6 @@ class CreateAccount extends Component {
     //When the user clicks the "Create an Account" button
     handleFormSubmit = event => {
         event.preventDefault();
-
         if (!this.state.username) {
             return (
                 this.setState({
@@ -108,7 +107,6 @@ class CreateAccount extends Component {
                })
                    .then(response => {
                        if (response.data) {
-
                            //Login to the newly created account
                            axios
                                .post('/api/users/login', {
@@ -139,8 +137,6 @@ class CreateAccount extends Component {
     };
 
     render() {
-
-        // console.log("CreateAccount.js this.state:", this.state);
 
         if (this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />

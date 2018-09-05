@@ -12,7 +12,6 @@ class SignIn extends Component {
     }
 
     componentDidMount = () => {
-        console.log("SignIn.js this.props: ", this.props)
         if (this.props.loggedIn) {
             this.setState({
                 redirectTo: '/dish_search'
@@ -30,7 +29,6 @@ class SignIn extends Component {
     //When the user clicks the "Sign In" button
     handleFormSubmit = event => {
         event.preventDefault();
-
         if (!this.state.username) {
             return (
                 this.setState({
@@ -43,7 +41,7 @@ class SignIn extends Component {
                     message: 'Please enter your password'
             }))
         }
-
+        //Post the login and see if the username and password are correct
         axios
             .post('/api/users/login', {
                 username: this.state.username,

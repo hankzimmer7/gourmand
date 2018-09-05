@@ -59,8 +59,7 @@ class RestaurantSearch extends Component {
             date_added: moment(new Date()).toISOString()
         }
         API.addRestaurant(newRestaurant)
-            .then(response => {
-                console.log("addRestaurant response: ", response);
+            .then(res => {
                 this.setState({
                     newRestaurantName: '',
                     newRestaurantAddress: '',
@@ -74,7 +73,6 @@ class RestaurantSearch extends Component {
     }
 
     render() {
-
         return (
             <div className="content-area">
                 <div className="container">
