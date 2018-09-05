@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-do
 import './App.css';
 import Navbar from './components/Navbar';
 import Loader from './components/Loader';
+import About from './pages/About';
 import SignIn from './pages/SignIn';
 import CreateAccount from './pages/CreateAccount';
 import DishSearch from './pages/DishSearch';
@@ -138,6 +139,8 @@ class App extends Component {
 					<Router>
 						<div>
 							<Switch>
+								<Route 
+									exact path="/about" component={About} />
 								<Route 
 									exact path="/sign_in" 
 									render={() => <SignIn
