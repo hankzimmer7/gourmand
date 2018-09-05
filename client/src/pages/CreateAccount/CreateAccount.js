@@ -16,7 +16,6 @@ class CreateAccount extends Component {
     }
 
     componentDidMount = () => {
-        console.log("CreateAccount.js this.props: ", this.props)
         if (this.props.loggedIn) {
             this.setState({
                 redirectTo: '/dish_search'
@@ -117,8 +116,6 @@ class CreateAccount extends Component {
                                    password: this.state.password
                                })
                                .then(response => {
-                                //    console.log('CreateAccount.js got the following response after posting to api/users/login: ', response);
-                                //    console.log('response.data is:', response.data);
                                    if (response.status === 200) {
                                        // update App.js state
                                        this.props.updateUser({
@@ -159,7 +156,6 @@ class CreateAccount extends Component {
                                     <label htmlFor="username">Username:</label>
                                     <small 
                                         id="usernameHelp" 
-                                        // className='form-text' 
                                         className={this.state.usernameMessageStyle}>       
                                             {this.state.usernameMessage}
                                     </small>
@@ -197,7 +193,7 @@ class CreateAccount extends Component {
                                 <div>
                                     <button 
                                         type="submit" 
-                                        className="btn btn-primary" 
+                                        className="btn" 
                                         value="Log In"
                                         onClick={this.handleFormSubmit}
                                         disabled={!this.state.validUsername}

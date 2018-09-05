@@ -4,9 +4,6 @@ const About = () => (
     <div className="content-area">
         <div className="container">
             <div className="jumbotron">
-                <h2 className='display-4'>
-                    About Gourmand
-                </h2>
                 <p class="lead">Gourmand is here to help you find your favorite dishes!</p>
                 <ul>
                     <li>
@@ -20,7 +17,7 @@ const About = () => (
                     </li>
                 </ul>
                 <hr class="my-4"/>
-                <a class="btn btn-secondary" target="_blank" rel="noopener noreferrer" href="https://github.com/hankzimmer7/gourmand" role="button">
+                <a class="btn" target="_blank" rel="noopener noreferrer" href="https://github.com/hankzimmer7/gourmand" role="button">
                     See the code on GitHub
                 </a>
             </div>

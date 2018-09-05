@@ -3,7 +3,7 @@ import './Navbar.css';
 
 const Navbar = props => (
 
-<nav className="navbar navbar-expand-md navbar-light bg-light">
+<nav className="navbar navbar-expand-xl navbar-light">
     <a className="navbar-brand " href="/sign_in">
         <h1 className="brand">Gourmand</h1>
     </a>

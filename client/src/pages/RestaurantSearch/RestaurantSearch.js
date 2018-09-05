@@ -162,7 +162,7 @@ class RestaurantSearch extends Component {
                                 </textarea>
                             </form>
                             <button 
-                                className="btn btn-primary mb-3"
+                                className="btn mb-3"
                                 onClick={this.handleRestaurantSubmit}
                                 >
                                 Add New Restaurant

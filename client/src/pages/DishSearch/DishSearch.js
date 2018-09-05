@@ -68,44 +68,40 @@ class DishSearch extends Component {
                             />
                             <button 
                                 type="submit" 
-                                className="btn btn-primary mb-2"
+                                className="btn mb-2"
                                 onClick={this.handleSearchSubmit}
                             >
                                 Search
                             </button>
-                        </form>
-                        
-                        <div className ="jumobotron">
-                            {this.state.dishes.length ? (
-                            <div className="row">
-                                {this.state.dishes.map(dish => (
-                                    <div className="col-12" key={dish._id}>
-                                        <div className="card mb-1">
-                                            <div className="card-body">
-                                                <h3 className="card-title">
-                                                    <a href={`restaurants/${dish.restaurant._id}/dishes/${dish._id}`}>
-                                                        {dish.name}
-                                                    </a>
-                                                </h3>
-                                                <p>
-                                                    <a href={`restaurants/${dish.restaurant._id}`}>
-                                                        {dish.restaurant.name}
-                                                    </a>
-                                                </p>
-                                                <p className="card-text">{dish.description}</p>
-                                            </div>
+                        </form>                      
+                        {this.state.dishesLoaded ? (
+                        <div className="row">
+                            {this.state.dishes.map(dish => (
+                                <div className="col-12" key={dish._id}>
+                                    <div className="card mb-1">
+                                        <div className="card-body">
+                                            <h3 className="card-title">
+                                                <a href={`restaurants/${dish.restaurant._id}/dishes/${dish._id}`}>
+                                                    {dish.name}
+                                                </a>
+                                            </h3>
+                                            <p>
+                                                <a href={`restaurants/${dish.restaurant._id}`}>
+                                                    {dish.restaurant.name}
+                                                </a>
+                                            </p>
+                                            <p className="card-text">{dish.description}</p>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                            ) : (
-                            <Loader />
-                        )}                
+                                </div>
+                            ))}
                         </div>
+                        ) : (
+                        <Loader />
+                        )}                
                     </div>
                 </div>
             </div>
-
         );
     };
 };

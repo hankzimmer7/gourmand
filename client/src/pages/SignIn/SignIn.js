@@ -105,7 +105,7 @@ class SignIn extends Component {
                                 </div>
                                     <button 
                                         type="submit" 
-                                        className="btn btn-primary btn-block mb-3" 
+                                        className="btn btn-block mb-3" 
                                         value="Log In"
                                         onClick={this.handleFormSubmit}
                                     >
@@ -114,7 +114,7 @@ class SignIn extends Component {
                                     <p className="text-center">Don't have an account?</p>
                                     <a 
                                         href="/create_account"
-                                        className="btn btn-primary btn-block" 
+                                        className="btn btn-block" 
                                         value="Create an Account"
                                     >
                                         Create an Account
