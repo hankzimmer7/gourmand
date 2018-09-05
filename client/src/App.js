@@ -179,7 +179,7 @@ class App extends Component {
 									loggedIn={this.state.loggedIn}
 									/>} 
 								/>
-							    <Redirect from="/:unknown" to="/sign_in" />
+							    <Redirect from="/" to="/sign_in" />
 							</Switch>
 						</div>
 					</Router>
