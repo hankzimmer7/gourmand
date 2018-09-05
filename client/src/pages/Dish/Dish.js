@@ -138,11 +138,9 @@ class Dish extends Component {
 
     //When the user clicks the "Delete Review" button, delete the review
     handleDeleteReview = id => {
-        console.log("Clicked delete review for review Id: ", id)
         API.deleteReview(id)
             .then(response => {
-                console.log("Delete review response: ", response);
-                this.loadReviews();
+                this.loadDish();
             }).catch(error => {
                 console.log('Error deleting review: ')
                 console.log(error);   

@@ -11,8 +11,8 @@ a {
   color: black;
 }
 
-  cursor: pointer;
 a:hover {
+  cursor: pointer;
   color: rgb(255, 150, 30)
 }
 
@@ -49,12 +49,22 @@ a:hover {
   color: rgb(255, 255, 255);
 }
 
-
 .loader {
   display: block;
   margin: 0 auto;
   text-align: center;
   padding-top: 200px;
+}
+
+.rating-display-text {
+  /* font-size: 1rem; */
+  text-align: right;
+  margin-bottom: 1rem;
+  color: gray;
+  /* float:right; */
+  /* position: absolute; */
+  /* top:1rem; */
+  /* right: 1rem; */
 }
 
 /* Large devices (desktops, less than 1200px) */
@@ -84,6 +94,10 @@ a:hover {
   .jumbotron {
     padding: 1rem 1rem;
   }
+  .rating-display-text {
+    text-align: left;
+    font-size: 0.8rem;
+  }
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
@@ -99,6 +113,7 @@ a:hover {
   h4 {
     font-size: 1rem;
   }
+
 }
 
 /* Tiny devices */

@@ -21,9 +21,37 @@ class DishSearch extends Component {
             this.setState({ 
                 dishes: res.data,
                 dishesLoaded: true
+            }, () => {
+                this.calculateAverageRating();
             })            
             )
             .catch(err => console.log(err));
+    };
+
+    //Calculate the average rating for each dish and save it in the state so it can be displayed next to the dish name
+    calculateAverageRating = () => {
+        let dishesWithAvgRatings = [];
+        this.state.dishes.forEach(function (dish, i) {
+            console.log("dish.name",dish.name);
+            let dishWithAvgRating = dish;
+            if(dish.reviews.length>0) {
+                let totalRating = dish.reviews.reduce(function (accumulator, review) {
+                    return accumulator + review.rating;
+                }, 0);
+                let newRating = (Math.round(totalRating/dish.reviews.length*10)/10).toFixed(1);
+                // this.setState({ averageRating: newRating})
+                console.log('average rating', newRating);
+
+                dishWithAvgRating.averageRating = newRating;
+            } else {
+                console.log(`${dish.name} has no reviews`);                
+            }
+            dishesWithAvgRatings.push(dishWithAvgRating);
+            
+        })
+        this.setState({
+            dishes: dishesWithAvgRatings
+        });
     };
 
     //Handle changes to the input form
@@ -80,11 +108,21 @@ class DishSearch extends Component {
                                 <div className="col-12" key={dish._id}>
                                     <div className="card mb-1">
                                         <div className="card-body">
-                                            <h3 className="card-title">
-                                                <a href={`restaurants/${dish.restaurant._id}/dishes/${dish._id}`}>
-                                                    {dish.name}
-                                                </a>
-                                            </h3>
+                                            <div className="row">
+                                                <div className="col-md-8">
+                                                    <h3 className="card-title">
+                                                        <a href={`restaurants/${dish.restaurant._id}/dishes/${dish._id}`}>
+                                                            {dish.name}
+                                                        </a>
+                                                    </h3>
+                                                </div>
+                                                <div className="col-md-4 rating-display-text">
+                                                    <span>
+                                                        {dish.averageRating && ` ${dish.averageRating} Stars, `}
+                                                        {` ${dish.reviews.length} Reviews`}
+                                                    </span>
+                                                </div>
+                                            </div>
                                             <p>
                                                 <a href={`restaurants/${dish.restaurant._id}`}>
                                                     {dish.restaurant.name}
