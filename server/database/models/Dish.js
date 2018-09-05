@@ -5,6 +5,7 @@ const dishSchema = new Schema({
   name: { type: String, required: true },
   description: String,
   restaurant: { type: Schema.Types.ObjectId, ref: 'Restaurant' },
+  reviews: [ { type:Schema.Types.ObjectId, ref: 'Review' } ],
   added_by: { type: Schema.Types.ObjectId, ref: 'User' },
   date_added: Date
 });

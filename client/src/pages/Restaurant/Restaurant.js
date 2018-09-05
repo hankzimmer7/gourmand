@@ -142,7 +142,11 @@ class Restaurant extends Component {
                                             <div className="col-12" key={dish._id}>
                                                 <div className="card mb-1">
                                                     <div className="card-body">
-                                                        <h2 className="card-title"><a href={`/restaurants/${dish.restaurant}/dishes/${dish._id}`}>{dish.name}</a></h2>
+                                                        <h3 className="card-title">
+                                                            <a href={`/restaurants/${dish.restaurant}/dishes/${dish._id}`}>
+                                                                {dish.name}
+                                                            </a>
+                                                        </h3>
                                                         <p className="card-text">{dish.description}</p>
                                                     </div>
                                                 </div>

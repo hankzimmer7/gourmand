@@ -22,7 +22,7 @@ const Navbar = props => (
       {props.loggedIn && (
         <React.Fragment>
           <li className="nav-item">
-            <a className="nav-link" href="/profile">Profile</a>
+            <a className="nav-link" href="/profile">My Reviews</a>
           </li>
           <li className="nav-item">
             <a className="nav-link" onClick={props.logout}>Logout</a>

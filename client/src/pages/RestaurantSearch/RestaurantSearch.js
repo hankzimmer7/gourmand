@@ -50,9 +50,6 @@ class RestaurantSearch extends Component {
 
     //Submit a new restaurant when the user clicks the submit button
     handleRestaurantSubmit = event => {
-        // const currentDate = new Date();
-        // console.log("Current date:", currentDate);
-        // console.log("Current date in ISO:",moment(currentDate).toISOString);
         event.preventDefault();
         const newRestaurant = {
             name: this.state.newRestaurantName,
@@ -61,7 +58,6 @@ class RestaurantSearch extends Component {
             added_by: this.props.user._id,
             date_added: moment(new Date()).toISOString()
         }
-        // console.log("new restaurant: ", newRestaurant); 
         API.addRestaurant(newRestaurant)
             .then(response => {
                 console.log("addRestaurant response: ", response);
@@ -111,7 +107,14 @@ class RestaurantSearch extends Component {
                             <div className="col-12" key={restaurant._id}>
                                 <div className="card mb-1">
                                     <div className="card-body">
-                                        <h2 className="card-title"><a href={"/restaurants/" + restaurant._id}>{restaurant.name}</a></h2>
+                                        <h3 className="card-title">
+                                            <a href={"/restaurants/" + restaurant._id}>
+                                                {restaurant.name}
+                                            </a>
+                                        </h3>
+                                        <p className="text-muted">
+                                                {restaurant.address}
+                                        </p>
                                         <p className="card-text">{restaurant.description}</p>
                                     </div>
                                 </div>

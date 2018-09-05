@@ -13,3 +13,6 @@ Gourmand has two main purposes:
 ## Technologies Used
 
 * React
+* Passport.js user authentication
+* MongoDB
+* Mongoose

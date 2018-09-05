@@ -3,19 +3,19 @@ const restaurantsController = require("../../controllers/restaurantsController")
 const dishesController = require("../../controllers/dishesController");
 const reviewsController = require("../../controllers/reviewsController");
 
-// Matches with "/api/restaurants"
+//Matches with "/api/restaurants"
 router.route("/restaurants")
   .get(restaurantsController.findAll)
   .post(restaurantsController.create);
 
-// Matches with "/api/restaurants/:id"
+//Matches with "/api/restaurants/:id"
 router
   .route("/restaurants/:id")
   .get(restaurantsController.findById)
   .put(restaurantsController.update)
   .delete(restaurantsController.delete);
 
-// Matches with "/api/restaurants/:id/dishes"
+//Matches with "/api/restaurants/:id/dishes"
 router
   .route("/restaurants/:id/dishes")
   .get(dishesController.findByRestaurantId);
@@ -25,12 +25,12 @@ router
   .route("/restaurants/search_term/:term")
   .get(restaurantsController.findByTerm);
 
-// Matches with "/api/dishes"
+//Matches with "/api/dishes"
 router.route("/dishes")
   .get(dishesController.findAll)
   .post(dishesController.create);
 
-// Matches with "/api/dishes/:id"
+//Matches with "/api/dishes/:id"
 router
   .route("/dishes/:id")
   .get(dishesController.findById)
@@ -42,12 +42,12 @@ router
   .route("/dishes/search_term/:term")
   .get(dishesController.findByTerm);
 
-// Matches with "/api/reviews"
+//Matches with "/api/reviews"
 router.route("/reviews")
   .get(reviewsController.findAll)
   .post(reviewsController.create);
 
-// Matches with "/api/reviews/:id"
+//Matches with "/api/reviews/:id"
 router
   .route("/reviews/:id")
   .get(reviewsController.findById)

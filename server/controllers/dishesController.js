@@ -6,6 +6,7 @@ module.exports = {
     db.Dish
       .find(req.query)
       .populate('restaurant')
+      .populate('reviews')
       .sort({ name: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
@@ -14,12 +15,14 @@ module.exports = {
     db.Dish
       .findById(req.params.id)
       .populate('restaurant')
+      .populate('reviews')
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   findByRestaurantId: function(req, res) {
     db.Dish
       .find({restaurant: req.params.id})
+      .populate('reviews')
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
