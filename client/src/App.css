@@ -17,10 +17,16 @@ a:hover {
   text-decoration: none;
 }
 
+#root {
+  height: 100%;
+}
+.max-height {
+  height: 100%;
+}
 .content-area {
   background-image: url('./images/food-background.jpg');
-  padding-bottom: 100px;
-  min-height: 800px;
+  padding-bottom: 50px;
+  min-height:100%;
 }
 
 .jumbotron {

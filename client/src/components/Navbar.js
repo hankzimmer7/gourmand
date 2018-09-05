@@ -2,7 +2,7 @@ import React from 'react';
 
 const Navbar = props => (
 
-<nav className="navbar navbar-expand-xl navbar-light">
+<nav className="navbar navbar-expand-xl navbar-light bg-light">
     <a className="navbar-brand " href="/sign_in">
         <h1 className="brand">Gourmand</h1>
     </a>
