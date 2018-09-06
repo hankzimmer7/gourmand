@@ -57,16 +57,22 @@ class DishSearch extends Component {
 
     //When the user searches for a fish
     handleSearchSubmit = event => {
-        event.preventDefault();
-        API.getDishesByTerm(this.state.searchTerm)
-            .then(res =>
-                this.setState({ 
-                    dishes: res.data,
-                    dishesLoaded: true
-                }) 
-            )
-            .catch(err => console.log(err));
-    }
+        event.preventDefault();        
+        this.setState({ 
+            dishesLoaded: false
+        }, () => {
+            API.getDishesByTerm(this.state.searchTerm)
+                .then(res =>
+                    this.setState({ 
+                        dishes: res.data,
+                        dishesLoaded: true
+                    }, () => {
+                        this.calculateAverageRating();
+                    })            
+                )
+                .catch(err => console.log(err));
+        }        
+    )}
     
     //Render to the page
     render() {

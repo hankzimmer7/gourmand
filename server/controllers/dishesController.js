@@ -46,6 +46,7 @@ module.exports = {
         }
       })
       .populate('restaurant')
+      .populate('reviews')
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
