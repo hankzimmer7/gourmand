@@ -104,16 +104,16 @@ class App extends Component {
   render() {
 
     return (
-		<div class="max-height">
+		<div className="max-height">
 			{this.state.userCheckDone ? (
-				<div class="max-height">
+				<div className="max-height">
 					<Navbar 
 						user={this.state.user}
 						logout={this.logout}
 						loggedIn={this.state.loggedIn}
 					/>
 					<Router>
-						<div class="max-height">
+						<div className="max-height">
 							<Switch>
 								<Route 
 									exact path="/about" component={About} />
