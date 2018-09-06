@@ -57,20 +57,25 @@ class DishSearch extends Component {
 
     //When the user searches for a fish
     handleSearchSubmit = event => {
-        event.preventDefault();        
+        event.preventDefault();             
         this.setState({ 
             dishesLoaded: false
         }, () => {
-            API.getDishesByTerm(this.state.searchTerm)
-                .then(res =>
-                    this.setState({ 
-                        dishes: res.data,
-                        dishesLoaded: true
-                    }, () => {
-                        this.calculateAverageRating();
-                    })            
-                )
-                .catch(err => console.log(err));
+
+            if (!this.state.searchTerm) {
+                this.loadAllDishes();
+            } else {
+                API.getDishesByTerm(this.state.searchTerm)
+                    .then(res =>
+                        this.setState({ 
+                            dishes: res.data,
+                            dishesLoaded: true
+                        }, () => {
+                            this.calculateAverageRating();
+                        })            
+                    )
+                    .catch(err => console.log(err));
+            }
         }        
     )}
     
@@ -133,6 +138,9 @@ class DishSearch extends Component {
                         </div>
                         ) : (
                         <Loader />
+                        )}
+                        {(this.state.dishesLoaded && this.state.dishes.length===0) && (
+                            <h3 className="mt-2">No dishes were found! <a href='/restaurant_search'>Search for the restaurant</a> in order to add a dish</h3>
                         )}                
                     </div>
                 </div>
